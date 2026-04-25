@@ -1,8 +1,4 @@
 {
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1" },
-    { "src": "/app", "dest": "/app/index.html" },
-    { "src": "/app/(.*)", "dest": "/app/index.html" },
-    { "src": "/(.*)", "dest": "/$1" }
-  ]
+  "cleanUrls": true,
+  "trailingSlash": false
 }
