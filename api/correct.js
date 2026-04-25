@@ -1,48 +1,36 @@
 export const config = { runtime: 'edge' };
 
 export default async function handler(req) {
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
+
   if (req.method === 'OPTIONS') {
-    return new Response(null, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-      },
-    });
+    return new Response(null, { headers: corsHeaders });
   }
 
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-      status: 405,
-      headers: { 'Content-Type': 'application/json' },
+      status: 405, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   }
 
   try {
     const body = await req.json();
-    const { texto, nivel, curso, rubrica, idioma_feedback } = body;
+    const { texto, nivel, curso, idioma_feedback } = body;
 
-    if (!texto) {
+    if (!texto || texto.length < 5) {
       return new Response(JSON.stringify({ error: 'Texto requerido' }), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
+        status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
 
-    const nivelInfo = nivel
-      ? `Nivel MCER: ${nivel}`
-      : curso
-      ? `Curso: ${curso}`
-      : rubrica
-      ? `Rúbrica personalizada: ${rubrica}`
-      : 'Nivel general B1';
-
+    const nivelInfo = nivel ? `Nivel MCER: ${nivel}` : curso ? `Curso español: ${curso}` : 'Nivel B1';
     const idiomaFeedback = idioma_feedback === 'en' ? 'English' : 'español';
 
-    const prompt = `Eres un profesor experto en corrección de writings en inglés. Corrige el siguiente writing de un alumno.
+    const prompt = `Eres un profesor experto en corrección de writings en inglés para secundaria española. Corrige el siguiente writing.
 
 ${nivelInfo}
 Idioma del feedback al alumno: ${idiomaFeedback}
@@ -50,29 +38,29 @@ Idioma del feedback al alumno: ${idiomaFeedback}
 WRITING DEL ALUMNO:
 ${texto}
 
-Responde ÚNICAMENTE con un objeto JSON válido con esta estructura exacta:
+Responde ÚNICAMENTE con un objeto JSON válido, sin markdown, sin texto adicional:
 {
-  "nota": <número del 0 al 10 con un decimal>,
-  "nivel_detectado": "<nivel MCER detectado>",
+  "nota": <número 0-10 con un decimal>,
+  "nivel_detectado": "<nivel MCER>",
+  "comentario_profesor": "<valoración general para el profesor en español, 2-3 frases>",
   "criterios": {
-    "gramatica": <nota 0-10>,
-    "vocabulario": <nota 0-10>,
-    "ortografia": <nota 0-10>,
-    "coherencia": <nota 0-10>,
-    "adecuacion": <nota 0-10>
+    "Gramática": <0-10>,
+    "Vocabulario": <0-10>,
+    "Ortografía": <0-10>,
+    "Coherencia": <0-10>,
+    "Adecuación": <0-10>
   },
   "errores": [
     {
-      "numero": <número>,
-      "tipo": "<Gramática|Vocabulario|Ortografía|Puntuación|Cohesión>",
-      "original": "<texto con error>",
-      "correcto": "<texto corregido>",
+      "tipo": "<Gramática|Vocabulario|Ortografía|Puntuación|Estilo>",
+      "original": "<texto exacto con error>",
+      "correcto": "<versión corregida>",
       "explicacion": "<explicación breve en español>"
     }
   ],
-  "texto_corregido": "<writing completo con correcciones aplicadas>",
-  "feedback_alumno": "<feedback pedagógico en ${idiomaFeedback}, 2-3 frases, positivo y constructivo>",
-  "comentario_profesor": "<observaciones para el profesor en español, aspectos a trabajar>"
+  "strengths": ["<punto fuerte 1>", "<punto fuerte 2>"],
+  "improvements": ["<a mejorar 1>", "<a mejorar 2>"],
+  "feedback_alumno": "<feedback directo al alumno en ${idiomaFeedback}, 2-3 frases, positivo y constructivo>"
 }`;
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -90,47 +78,32 @@ Responde ÚNICAMENTE con un objeto JSON válido con esta estructura exacta:
     });
 
     if (!response.ok) {
-      const error = await response.text();
-      return new Response(JSON.stringify({ error: 'Error en API de Anthropic', detalle: error }), {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
+      const errorText = await response.text();
+      return new Response(JSON.stringify({ error: 'Error en API de Anthropic', detalle: errorText }), {
+        status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
 
     const data = await response.json();
-    const content = data.content[0].text;
+    const rawText = data.content?.[0]?.text || '';
 
     let resultado;
     try {
-      const jsonMatch = content.match(/\{[\s\S]*\}/);
-      resultado = JSON.parse(jsonMatch ? jsonMatch[0] : content);
+      const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+      resultado = JSON.parse(jsonMatch ? jsonMatch[0] : rawText);
     } catch {
-      return new Response(JSON.stringify({ error: 'Error al parsear respuesta', raw: content }), {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
+      return new Response(JSON.stringify({ error: 'Error al parsear respuesta', raw: rawText }), {
+        status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
     }
 
     return new Response(JSON.stringify(resultado), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
+      status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
+
   } catch (err) {
-    return new Response(JSON.stringify({ error: 'Error interno', detalle: err.message }), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
+    return new Response(JSON.stringify({ error: err.message || 'Error interno' }), {
+      status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     });
   }
 }
