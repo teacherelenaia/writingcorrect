@@ -515,7 +515,30 @@ function Auth({ onLogin }) {
 }
 
 // ── UPGRADE MODAL ────────────────────────────────────────────────
-function UpgradeModal({ onClose, onUpgrade, reason }) {
+function UpgradeModal({ onClose, onUpgrade, user, reason }) {
+  const [loading, setLoading] = React.useState(null);
+
+  async function handleUpgrade(plan) {
+    setLoading(plan);
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan, email: user?.email || '' })
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert('Error al conectar con Stripe: ' + (data.error || 'Inténtalo de nuevo.'));
+      }
+    } catch (e) {
+      alert('Error: ' + e.message);
+    } finally {
+      setLoading(null);
+    }
+  }
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={e=>e.stopPropagation()}>
@@ -526,24 +549,27 @@ function UpgradeModal({ onClose, onUpgrade, reason }) {
         <div className="modal-body">
           {reason && <div className="error-box" style={{marginBottom:16}}>{reason}</div>}
           <div className="plan-grid">
-            <div className="plan-card" onClick={()=>onUpgrade('basic')}>
+            <div className="plan-card" onClick={()=>handleUpgrade('basic')} style={{opacity: loading&&loading!=='basic'?0.5:1}}>
               <div className="plan-name">Básico</div>
               <div className="plan-price">6,99€ <span>/mes</span></div>
               <div className="plan-desc">80 correcciones · Clases y alumnos · PDF básico</div>
+              {loading==='basic' && <div style={{fontSize:12,color:'var(--accent)',marginTop:8}}>Redirigiendo a Stripe…</div>}
             </div>
-            <div className="plan-card featured" onClick={()=>onUpgrade('teacher')}>
+            <div className="plan-card featured" onClick={()=>handleUpgrade('teacher')} style={{opacity: loading&&loading!=='teacher'?0.5:1}}>
               <div style={{fontSize:11,fontWeight:600,color:'var(--accent)',marginBottom:6,letterSpacing:'0.5px'}}>MÁS POPULAR</div>
               <div className="plan-name">Profesor</div>
               <div className="plan-price">9,99€ <span>/mes</span></div>
               <div className="plan-desc">250 correcciones · PDF completo · iDoceo y Classroom · Rúbricas guardadas</div>
+              {loading==='teacher' && <div style={{fontSize:12,color:'var(--accent)',marginTop:8}}>Redirigiendo a Stripe…</div>}
             </div>
-            <div className="plan-card" onClick={()=>onUpgrade('center')}>
+            <div className="plan-card" onClick={()=>handleUpgrade('center')} style={{opacity: loading&&loading!=='center'?0.5:1}}>
               <div className="plan-name">Centro</div>
               <div className="plan-price">39€ <span>/mes</span></div>
               <div className="plan-desc">Ilimitado · 5 profesores · Soporte prioritario</div>
+              {loading==='center' && <div style={{fontSize:12,color:'var(--accent)',marginTop:8}}>Redirigiendo a Stripe…</div>}
             </div>
           </div>
-          <p style={{fontSize:12,color:'var(--mist)',marginTop:16,textAlign:'center'}}>Los pagos se gestionarán próximamente con Stripe. Por ahora el cambio es manual.</p>
+          <p style={{fontSize:12,color:'var(--mist)',marginTop:16,textAlign:'center'}}>Pago seguro con Stripe · Cancela cuando quieras</p>
         </div>
       </div>
     </div>
@@ -1092,7 +1118,7 @@ function Corrector({ user, onUserChange, onLogout }) {
       )}
 
       {/* UPGRADE MODAL */}
-      {showUpgrade && <UpgradeModal onClose={()=>setShowUpgrade(false)} onUpgrade={upgrade} reason={upgradeReason} />}
+      {showUpgrade && <UpgradeModal onClose={()=>setShowUpgrade(false)} onUpgrade={upgrade} user={user} reason={upgradeReason} />}
     </div>
   );
 }
