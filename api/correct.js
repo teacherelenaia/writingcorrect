@@ -1,32 +1,23 @@
-export const config = { runtime: 'edge' };
+export const config = { runtime: 'nodejs', maxDuration: 60 };
 
-export default async function handler(req) {
-  const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-  };
+export default async function handler(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return res.status(200).end();
   }
 
   if (req.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), {
-      status: 405,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const body = await req.json();
-    const { texto, nivel, curso, idioma_feedback, images } = body;
+    const { texto, nivel, curso, idioma_feedback, images } = req.body;
 
     if (!texto || texto.length < 5) {
-      return new Response(JSON.stringify({ error: 'Texto requerido' }), {
-        status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
+      return res.status(400).json({ error: 'Texto requerido' });
     }
 
     // ── MODO TRANSCRIPCIÓN (foto del writing) ──────────────────
@@ -62,19 +53,12 @@ export default async function handler(req) {
 
       if (!transcribeRes.ok) {
         const errorText = await transcribeRes.text();
-        return new Response(
-          JSON.stringify({ error: 'Error transcribiendo imagen', detalle: errorText }),
-          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
+        return res.status(500).json({ error: 'Error transcribiendo imagen', detalle: errorText });
       }
 
       const transcribeData = await transcribeRes.json();
       const transcription = transcribeData.content?.[0]?.text || '';
-
-      return new Response(JSON.stringify({ transcription }), {
-        status: 200,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
+      return res.status(200).json({ transcription });
     }
 
     // ── MODO CORRECCIÓN ────────────────────────────────────────
@@ -116,62 +100,4 @@ Responde ÚNICAMENTE con un objeto JSON válido, sin markdown, sin texto adicion
   ],
   "strengths": ["<punto fuerte 1>", "<punto fuerte 2>"],
   "improvements": ["<a mejorar 1>", "<a mejorar 2>"],
-  "feedback_alumno": "<feedback directo al alumno en ${idiomaFeedback}, 2-3 frases, positivo y constructivo>"
-}`;
-
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 4000,
-        messages: [{ role: 'user', content: prompt }],
-      }),
-    });
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      return new Response(
-        JSON.stringify({ error: 'Error en API de Anthropic', detalle: errorText }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    const data = await response.json();
-    const rawText = data.content?.[0]?.text || '';
-
-    let resultado;
-    try {
-      // Buscar el primer { y último } para extraer JSON aunque haya texto alrededor
-      const firstBrace = rawText.indexOf('{');
-      const lastBrace = rawText.lastIndexOf('}');
-      if (firstBrace === -1 || lastBrace === -1) {
-        throw new Error('No se encontró JSON en la respuesta');
-      }
-      const jsonStr = rawText.slice(firstBrace, lastBrace + 1);
-      resultado = JSON.parse(jsonStr);
-    } catch (parseErr) {
-      return new Response(
-        JSON.stringify({
-          error: 'Error al parsear respuesta de la IA. Texto demasiado largo o complejo. Inténtalo con un fragmento más corto.',
-          detalle: parseErr.message,
-        }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    return new Response(JSON.stringify(resultado), {
-      status: 200,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
-  } catch (err) {
-    return new Response(JSON.stringify({ error: err.message || 'Error interno' }), {
-      status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
-  }
-}
+  "feedback_alumno": "<feedback directo al alumno en ${idiomaFeedback}, 2-3 frase
