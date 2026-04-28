@@ -29,7 +29,6 @@ export default async function handler(req) {
       });
     }
 
-    // ── MODO TRANSCRIPCIÓN ──
     if (texto === '__transcribe__' && images && images.length > 0) {
       const transcribeContent = [
         ...images.map((img) => ({
@@ -61,7 +60,6 @@ export default async function handler(req) {
       });
     }
 
-    // ── MODO CORRECCIÓN ──
     const nivelInfo = nivel ? `Nivel MCER ${nivel}` : curso ? `Curso ${curso}` : 'Nivel B1';
     const idiomaFeedback = idioma_feedback === 'en' ? 'English' : 'español';
 
@@ -71,7 +69,7 @@ WRITING:
 ${texto}
 
 Devuelve SOLO JSON válido, sin markdown:
-{"nota":<0-10 1 decimal>,"nivel_detectado":"<MCER>","comentario_profesor":"<2 frases ES>","criterios":{"Gramática":<0-10>,"Vocabulario":<0-10>,"Ortografía":<0-10>,"Coherencia":<0-10>,"Adecuación":<0-10>},"errores":[{"tipo":"<Gramática|Vocabulario|Ortografía|Puntuación|Estilo>","original":"<texto exacto del error>","correcto":"<corregido>","explicacion":"<breve ES>"}],"strengths":["<punto>","<punto>"],"improvements":["<a mejorar>","<a mejorar>"],"feedback_alumno":"<2 frases ${idiomaFeedback}>"}`;
+{"nota":<0-10 1 decimal>,"nivel_detectado":"<MCER>","comentario_profesor":"<2 frases ES>","criterios":{"Gramática":<0-10>,"Vocabulario":<0-10>,"Ortografía":<0-10>,"Coherencia":<0-10>,"Adecuación":<0-10>},"errores":[{"tipo":"<Gramática|Vocabulario|Ortografía|Puntuación|Estilo>","original":"<texto exacto>","correcto":"<corregido>","explicacion":"<breve ES>"}],"strengths":["<punto>","<punto>"],"improvements":["<a mejorar>","<a mejorar>"],"feedback_alumno":"<2 frases ${idiomaFeedback}>"}`;
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -100,5 +98,25 @@ Devuelve SOLO JSON válido, sin markdown:
 
     let resultado;
     try {
-      const firstBrace = rawText.indexOf('{');
-      const lastBrace
+      const inicio = rawText.indexOf('{');
+      const fin = rawText.lastIndexOf('}');
+      if (inicio === -1 || fin === -1) throw new Error('Sin JSON');
+      resultado = JSON.parse(rawText.slice(inicio, fin + 1));
+    } catch (parseErr) {
+      return new Response(
+        JSON.stringify({ error: 'Error parseando respuesta', detalle: parseErr.message }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    return new Response(JSON.stringify(resultado), {
+      status: 200,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  } catch (err) {
+    return new Response(JSON.stringify({ error: err.message || 'Error interno' }), {
+      status: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+}
