@@ -87,7 +87,6 @@ export default async function handler(req) {
   );
 
   if (!valid) {
-    console.error('Webhook signature inválida');
     return new Response(JSON.stringify({ error: 'Invalid signature' }), { status: 400 });
   }
 
@@ -117,7 +116,7 @@ export default async function handler(req) {
           plan = PRICE_TO_PLAN[priceId] || null;
         }
 
-        if (!plan) { console.error('Plan no determinado'); break; }
+        if (!plan) break;
 
         let targetUserId = userId;
         if (!targetUserId && email) {
@@ -128,4 +127,41 @@ export default async function handler(req) {
           await updateProfile(targetUserId, {
             plan,
             corrections_used: 0,
-            up
+            updated_at: new Date().toISOString(),
+          });
+        }
+        break;
+      }
+
+      case 'customer.subscription.deleted': {
+        const sub = event.data.object;
+        const custRes = await fetch(
+          `https://api.stripe.com/v1/customers/${sub.customer}`,
+          { headers: { 'Authorization': `Bearer ${process.env.STRIPE_SECRET_KEY}` } }
+        );
+        const customer = await custRes.json();
+        if (customer.email) {
+          const uid = await getUserIdByEmail(customer.email);
+          if (uid) {
+            await updateProfile(uid, {
+              plan: 'free',
+              corrections_used: 0,
+              updated_at: new Date().toISOString(),
+            });
+          }
+        }
+        break;
+      }
+
+      default:
+        break;
+    }
+  } catch (err) {
+    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+  }
+
+  return new Response(JSON.stringify({ received: true }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' }
+  });
+}
