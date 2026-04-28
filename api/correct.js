@@ -35,7 +35,7 @@ export default async function handler(req) {
           type: 'image',
           source: { type: 'base64', media_type: img.mediaType || 'image/jpeg', data: img.base64 },
         })),
-        { type: 'text', text: 'Transcribe el texto del writing tal cual aparece, respetando errores. Devuelve SOLO el texto.' },
+        { type: 'text', text: 'Transcribe el texto del writing tal cual aparece, respetando los errores ortográficos y gramaticales originales. Devuelve SOLO el texto transcrito.' },
       ];
 
       const tRes = await fetch('https://api.anthropic.com/v1/messages', {
@@ -61,15 +61,41 @@ export default async function handler(req) {
     }
 
     const nivelInfo = nivel ? `Nivel MCER ${nivel}` : curso ? `Curso ${curso}` : 'Nivel B1';
-    const idiomaFeedback = idioma_feedback === 'en' ? 'English' : 'español';
+    const idiomaFeedback = idioma_feedback === 'en' ? 'inglés' : 'español';
 
-    const prompt = `Profesor de inglés, corrige este writing (${nivelInfo}). Feedback en ${idiomaFeedback}.
+    const prompt = `Eres un profesor experto de inglés en secundaria española. Corrige este writing para un alumno de ${nivelInfo}.
 
-WRITING:
+WRITING DEL ALUMNO:
 ${texto}
 
-Devuelve SOLO JSON válido, sin markdown:
-{"nota":<0-10 1 decimal>,"nivel_detectado":"<MCER>","comentario_profesor":"<2 frases ES>","criterios":{"Gramática":<0-10>,"Vocabulario":<0-10>,"Ortografía":<0-10>,"Coherencia":<0-10>,"Adecuación":<0-10>},"errores":[{"tipo":"<Gramática|Vocabulario|Ortografía|Puntuación|Estilo>","original":"<texto exacto>","correcto":"<corregido>","explicacion":"<breve ES>"}],"strengths":["<punto>","<punto>"],"improvements":["<a mejorar>","<a mejorar>"],"feedback_alumno":"<2 frases ${idiomaFeedback}>"}`;
+INSTRUCCIONES:
+- Detecta TODOS los errores (gramática, vocabulario, ortografía, puntuación, estilo).
+- En "original" pon el texto EXACTO con el error (importante para localizarlo en el writing).
+- En "explicacion" da una explicación pedagógica clara en español (1-2 frases) que ayude al alumno a entender el porqué del error.
+- "comentario_profesor": valoración general detallada en español para el profesor (3-4 frases sobre nivel, fortalezas y áreas de mejora globales).
+- "feedback_alumno": mensaje motivador y constructivo dirigido al alumno en ${idiomaFeedback} (4-5 frases). Empieza reconociendo lo positivo, después señala 2-3 áreas concretas de mejora con sugerencias prácticas, y termina con una frase de ánimo. Trata al alumno con calidez.
+- "strengths": 3 puntos fuertes específicos (no genéricos).
+- "improvements": 3 áreas concretas a mejorar con consejo práctico.
+
+Devuelve SOLO un objeto JSON válido, sin markdown, sin texto extra:
+{
+  "nota": <0-10 con un decimal>,
+  "nivel_detectado": "<nivel MCER detectado>",
+  "comentario_profesor": "<3-4 frases en español>",
+  "criterios": {
+    "Gramática": <0-10>,
+    "Vocabulario": <0-10>,
+    "Ortografía": <0-10>,
+    "Coherencia": <0-10>,
+    "Adecuación": <0-10>
+  },
+  "errores": [
+    {"tipo": "<Gramática|Vocabulario|Ortografía|Puntuación|Estilo>", "original": "<texto exacto del error>", "correcto": "<corregido>", "explicacion": "<1-2 frases en español>"}
+  ],
+  "strengths": ["<punto fuerte 1>", "<punto fuerte 2>", "<punto fuerte 3>"],
+  "improvements": ["<a mejorar 1>", "<a mejorar 2>", "<a mejorar 3>"],
+  "feedback_alumno": "<4-5 frases en ${idiomaFeedback}>"
+}`;
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -80,7 +106,7 @@ Devuelve SOLO JSON válido, sin markdown:
       },
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 3000,
+        max_tokens: 4000,
         messages: [{ role: 'user', content: prompt }],
       }),
     });
