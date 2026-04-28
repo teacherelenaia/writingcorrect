@@ -1,4 +1,7 @@
 {
-  "cleanUrls": true,
-  "trailingSlash": false
+  "version": 2,
+  "rewrites": [
+    { "source": "/app",  "destination": "/api/app" },
+    { "source": "/app/", "destination": "/api/app" }
+  ]
 }
