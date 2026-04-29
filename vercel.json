@@ -1,15 +1,7 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/app",  "destination": "/app/index.html" },
-    { "source": "/app/", "destination": "/app/index.html" }
-  ],
-  "headers": [
-    {
-      "source": "/app/index.html",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" }
-      ]
-    }
+    { "source": "/app",  "destination": "/app/app2.html" },
+    { "source": "/app/", "destination": "/app/app2.html" }
   ]
 }
