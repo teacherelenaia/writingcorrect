@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WritingCorrect — Corrige writings de inglés con IA</title>
+<title>WritingCorrect — Corrector de Writings con IA para Profesores de Inglés</title>
 <meta name="description" content="Corrige writings de inglés en segundos con IA. Nota sobre 10, errores explicados, feedback pedagógico y exportación a iDoceo. Para profesores de secundaria.">
-<meta name="keywords" content="corrector writings inglés, corrección redacciones inglés IA, herramienta profesor inglés, iDoceo, feedback writings, MCER, ESO, Bachillerato">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="WritingCorrect — Corrector de writings con IA">
 <meta property="og:description" content="Corrige writings de inglés en segundos. Nota, errores y feedback listo para el alumno.">
@@ -24,57 +23,50 @@
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
-
-/* NAV */
-nav{background:var(--navy);padding:0 2rem;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+nav{background:var(--navy);padding:0 2.5rem;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
 .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
-.nav-mark{width:32px;height:32px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px}
-.nav-name{font-size:16px;font-weight:600;color:white;letter-spacing:-0.3px}
+.nav-mark{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.nav-name{font-size:17px;font-weight:600;color:white;letter-spacing:-0.3px}
 .nav-name span{color:#7EC8F0}
 .nav-links{display:flex;align-items:center;gap:6px}
-.nav-link{font-size:13px;color:rgba(255,255,255,0.6);padding:6px 12px;cursor:pointer;text-decoration:none;transition:color 0.2s}
+.nav-link{font-size:13px;color:rgba(255,255,255,0.6);padding:6px 12px;cursor:pointer;border-radius:6px;transition:color 0.2s;text-decoration:none}
 .nav-link:hover{color:white}
 .nav-cta{font-size:13px;font-weight:600;color:white;background:var(--accent);border:none;padding:8px 18px;border-radius:7px;cursor:pointer;text-decoration:none;transition:background 0.2s}
 .nav-cta:hover{background:#1A5F8E}
-
-/* HERO */
-.hero{max-width:960px;margin:0 auto;padding:64px 24px 52px;display:grid;grid-template-columns:1fr 380px;gap:52px;align-items:center}
-@media(max-width:860px){.hero{grid-template-columns:1fr;padding:40px 24px 36px}}
+.hero{max-width:980px;margin:0 auto;padding:64px 24px 52px;display:grid;grid-template-columns:1fr 380px;gap:52px;align-items:center}
+@media(max-width:820px){.hero{grid-template-columns:1fr;padding:40px 24px}}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-light);border:1px solid #C2DCF0;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--accent);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:18px}
 .hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
-.hero-title{font-family:var(--serif);font-size:clamp(34px,4vw,48px);line-height:1.06;color:var(--navy);letter-spacing:-1px;margin-bottom:16px}
+.hero-title{font-family:var(--serif);font-size:clamp(32px,4vw,46px);line-height:1.06;color:var(--navy);letter-spacing:-1px;margin-bottom:16px}
 .hero-title em{font-style:italic;color:var(--accent)}
-.hero-sub{font-size:15px;color:var(--slate);line-height:1.7;font-weight:300;margin-bottom:24px;max-width:440px}
+.hero-sub{font-size:15px;color:var(--slate);line-height:1.7;font-weight:300;margin-bottom:28px;max-width:440px}
 .hero-stats{display:flex;gap:32px;margin-bottom:28px}
-.stat-num{font-family:var(--serif);font-size:26px;color:var(--navy);line-height:1}
+.stat-num{font-family:var(--serif);font-size:28px;color:var(--navy);line-height:1}
 .stat-label{font-size:11px;color:var(--mist);margin-top:3px}
 .hero-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.btn-primary{background:var(--navy);color:white;border:none;padding:13px 24px;border-radius:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background 0.2s;text-decoration:none;display:inline-block}
+.btn-primary{background:var(--navy);color:white;border:none;padding:13px 24px;border-radius:9px;font-size:15px;font-weight:600;cursor:pointer;font-family:var(--sans);text-decoration:none;display:inline-block;transition:background 0.2s}
 .btn-primary:hover{background:var(--navy-mid)}
-.btn-secondary{background:white;color:var(--navy);border:1.5px solid var(--border);padding:12px 20px;border-radius:9px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--sans);transition:all 0.2s;text-decoration:none;display:inline-block}
-.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
-
-/* AUTH CARD */
-.auth-card{background:var(--navy);border:1px solid var(--navy-mid);border-radius:16px;padding:28px 26px;box-shadow:0 8px 32px rgba(14,30,53,0.2)}
-@media(max-width:860px){.auth-card{max-width:400px}}
+.btn-secondary{background:white;color:var(--navy);border:1.5px solid var(--border);padding:12px 20px;border-radius:9px;font-size:14px;font-weight:500;cursor:pointer;font-family:var(--sans);text-decoration:none;display:inline-block;transition:border-color 0.2s}
+.btn-secondary:hover{border-color:var(--slate)}
+.auth-card{background:var(--navy);border:1px solid var(--navy-mid);border-radius:16px;padding:28px 26px;box-shadow:0 8px 40px rgba(14,30,53,0.2)}
+@media(max-width:820px){.auth-card{max-width:400px}}
 .auth-tabs{display:flex;background:rgba(255,255,255,0.08);border-radius:8px;padding:3px;margin-bottom:22px}
 .auth-tab{flex:1;padding:8px;border:none;background:transparent;font-size:13px;font-weight:500;color:rgba(255,255,255,0.5);cursor:pointer;border-radius:6px;font-family:var(--sans);transition:all 0.2s}
-.auth-tab.active{background:var(--accent);color:white}
+.auth-tab.active{background:rgba(255,255,255,0.12);color:white}
 .auth-title{font-family:var(--serif);font-size:22px;color:white;margin-bottom:4px}
 .auth-sub{font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:18px;font-weight:300}
 .auth-field{margin-bottom:12px}
 .auth-field label{display:block;font-size:10px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:5px}
-.auth-field input{width:100%;padding:10px 13px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.12);border-radius:8px;font-size:14px;color:white;font-family:var(--sans);outline:none;transition:border-color 0.2s}
-.auth-field input:focus{border-color:var(--accent)}
-.auth-field input::placeholder{color:rgba(255,255,255,0.3)}
-.auth-btn{width:100%;padding:12px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--sans);margin-top:4px;transition:background 0.2s}
+.auth-field input{width:100%;padding:10px 13px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(255,255,255,0.12);border-radius:8px;font-family:var(--sans);font-size:14px;color:white;outline:none;transition:border-color 0.2s}
+.auth-field input:focus{border-color:rgba(255,255,255,0.3)}
+.auth-field input::placeholder{color:rgba(255,255,255,0.25)}
+.auth-btn{width:100%;padding:12px;background:var(--accent);color:white;border:none;border-radius:8px;font-family:var(--sans);font-size:14px;font-weight:600;cursor:pointer;margin-top:4px;transition:background 0.2s}
 .auth-btn:hover{background:#1A5F8E}
 .auth-switch{text-align:center;font-size:12px;color:rgba(255,255,255,0.4);margin-top:12px}
 .auth-switch a{color:#7EC8F0;font-weight:600;cursor:pointer}
-.auth-err{background:rgba(163,45,45,0.2);border:1px solid rgba(163,45,45,0.4);border-radius:7px;padding:9px 12px;font-size:12px;color:#F09595;margin-bottom:12px}
-
-/* FEATURES */
-.features{max-width:960px;margin:0 auto;padding:0 24px 56px}
+.auth-err{background:var(--red-light);border:1px solid #F09595;border-radius:7px;padding:8px 12px;font-size:12px;color:var(--red);margin-bottom:12px}
+.auth-ok{background:var(--green-light);border:1px solid #A8DCC3;border-radius:7px;padding:8px 12px;font-size:12px;color:var(--green);margin-bottom:12px}
+.features{max-width:980px;margin:0 auto;padding:0 24px 60px}
 .section-label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--accent);text-align:center;margin-bottom:10px}
 .section-title{font-family:var(--serif);font-size:clamp(26px,3vw,34px);color:var(--navy);text-align:center;margin-bottom:8px;letter-spacing:-0.5px}
 .section-sub{font-size:14px;color:var(--slate);text-align:center;font-weight:300;margin-bottom:36px}
@@ -97,68 +89,60 @@ nav{background:var(--navy);padding:0 2rem;height:56px;display:flex;align-items:c
 .feat-blue .feat-name{color:#0C447C}.feat-blue .feat-desc{color:#185FA5}
 .feat-amber .feat-name{color:#633806}.feat-amber .feat-desc{color:#854F0B}
 .feat-white .feat-name{color:var(--navy)}.feat-white .feat-desc{color:var(--slate)}
-
-/* DEMO */
-.demo{max-width:960px;margin:0 auto;padding:0 24px 56px}
-.mock-browser{background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(14,30,53,0.06)}
-.mock-bar{background:#F5F7FA;border-bottom:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:10px}
+.preview{max-width:980px;margin:0 auto;padding:0 24px 60px}
+.mock-browser{background:white;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.mock-bar{background:#F5F7FA;border-bottom:1px solid var(--border);padding:10px 14px;display:flex;align-items:center;gap:8px}
 .mock-dots{display:flex;gap:5px}
 .mock-dot{width:10px;height:10px;border-radius:50%}
-.mock-url{font-size:11px;color:var(--mist);background:white;border:1px solid var(--border);border-radius:5px;padding:3px 12px}
+.mock-url{font-size:11px;color:var(--mist);background:white;border:1px solid var(--border);border-radius:4px;padding:3px 12px}
 .mock-body{display:grid;grid-template-columns:1fr 1fr}
 @media(max-width:600px){.mock-body{grid-template-columns:1fr}}
 .mock-col{padding:18px 20px}
 .mock-col+.mock-col{border-left:1px solid var(--border)}
-.mock-col-label{font-size:9px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--mist);margin-bottom:12px}
-.mock-text{font-size:12px;line-height:1.9;color:var(--ink)}
+.mock-col-label{font-size:10px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--mist);margin-bottom:12px}
+.mock-text{font-size:13px;line-height:1.9;color:var(--ink)}
 .err-g{color:var(--red);border-bottom:2px solid #E24B4A}
 .err-s{color:var(--accent);border-bottom:2px solid #378ADD}
-.mock-legend{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
-.mock-leg{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
-.leg-g{background:var(--red-light);color:var(--red)}
-.leg-s{background:var(--accent-light);color:var(--accent)}
 .score-big{display:flex;align-items:baseline;gap:4px;margin-bottom:4px}
 .score-n{font-family:var(--serif);font-size:38px;color:var(--navy);line-height:1}
 .score-d{font-size:14px;color:var(--mist)}
-.score-sub{font-size:11px;color:var(--mist);margin-bottom:14px}
-.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .bar-name{font-size:11px;color:var(--slate);width:72px;flex-shrink:0}
 .bar-track{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden}
 .bar-fill{height:100%;border-radius:3px}
-.bar-val{font-size:11px;font-weight:600;color:var(--navy);width:24px;text-align:right}
-.mock-feedback{margin-top:12px;background:var(--green-light);border:1px solid #A8DCC3;border-radius:8px;padding:10px 12px}
-.mock-feedback-label{font-size:9px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase;color:#085041;margin-bottom:4px}
-.mock-feedback-text{font-size:11px;color:#085041;line-height:1.5}
-
-/* PLANES */
-.plans{background:var(--navy);padding:56px 24px}
-.plans-inner{max-width:960px;margin:0 auto}
-.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+.bar-val{font-size:11px;font-weight:600;color:var(--navy);width:26px;text-align:right}
+.mock-legend{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.leg{display:flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px}
+.leg-g{background:var(--red-light);color:var(--red)}
+.leg-s{background:var(--accent-light);color:var(--accent)}
+.mock-feedback{background:var(--green-light);border:1px solid #A8DCC3;border-radius:8px;padding:10px 12px;margin-top:12px}
+.mock-fb-label{font-size:9px;font-weight:600;letter-spacing:0.6px;text-transform:uppercase;color:var(--green);margin-bottom:4px}
+.mock-fb-text{font-size:11px;color:#085041;line-height:1.5}
+.plans-section{background:var(--navy);padding:56px 24px}
+.plans-inner{max-width:980px;margin:0 auto}
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px}
 @media(max-width:700px){.plans-grid{grid-template-columns:1fr}}
 .plan-card{border-radius:12px;padding:24px 20px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06)}
 .plan-card.featured{background:var(--accent);border-color:#378ADD}
-.plan-badge{font-size:10px;font-weight:700;color:#7EC8F0;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px}
+.plan-badge{font-size:10px;font-weight:700;color:#7EC8F0;letter-spacing:0.6px;text-transform:uppercase;margin-bottom:8px}
 .plan-name{font-size:15px;font-weight:700;color:white;margin-bottom:4px}
-.plan-price{font-family:var(--serif);font-size:28px;color:white;margin-bottom:2px}
-.plan-price span{font-family:var(--sans);font-size:12px;color:rgba(255,255,255,0.5)}
-.plan-feats{list-style:none;margin:12px 0 18px;display:flex;flex-direction:column;gap:6px}
-.plan-feats li{font-size:12px;color:rgba(255,255,255,0.85);display:flex;align-items:center;gap:7px}
+.plan-price{font-family:var(--serif);font-size:30px;color:white;margin-bottom:4px}
+.plan-price span{font-family:var(--sans);font-size:13px;color:rgba(255,255,255,0.5)}
+.plan-feats{list-style:none;margin:14px 0 20px;display:flex;flex-direction:column;gap:7px}
+.plan-feats li{font-size:13px;color:rgba(255,255,255,0.85);display:flex;align-items:center;gap:8px}
 .plan-feats li::before{content:'✓';color:#7EC8F0;font-weight:700;font-size:11px;flex-shrink:0}
 .plan-card.featured .plan-feats li::before{color:white}
-.plan-btn{width:100%;padding:11px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans);border:none;transition:all 0.2s}
+.plan-btn{width:100%;padding:11px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--sans);border:none;transition:all 0.2s;display:block;text-align:center;text-decoration:none}
 .plan-btn-o{background:rgba(255,255,255,0.1);color:white}
 .plan-btn-o:hover{background:rgba(255,255,255,0.18)}
 .plan-btn-s{background:white;color:var(--accent)}
 .plan-btn-s:hover{background:#F0F8FF}
-
-/* FOOTER */
-footer{background:#0A1628;padding:20px 24px;text-align:center}
-footer p{font-size:12px;color:rgba(255,255,255,0.3)}
+footer{background:#0A1628;padding:20px 24px;text-align:center;border-top:1px solid rgba(255,255,255,0.06)}
+.footer-text{font-size:12px;color:rgba(255,255,255,0.3)}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="/" class="nav-logo">
     <div class="nav-mark">✏️</div>
@@ -171,283 +155,182 @@ footer p{font-size:12px;color:rgba(255,255,255,0.3)}
   </div>
 </nav>
 
-<!-- HERO -->
-<section style="background:var(--bg)">
-  <div class="hero">
-    <div>
-      <div class="hero-badge"><div class="hero-badge-dot"></div>IA para profesores de inglés</div>
-      <h1 class="hero-title">Corrige writings con <em>precisión,</em> en segundos</h1>
-      <p class="hero-sub">La herramienta que estabas esperando. Nota sobre 10, errores explicados y feedback listo para entregar — calibrado al nivel MCER de cada alumno.</p>
-      <div class="hero-stats">
-        <div><div class="stat-num">10×</div><div class="stat-label">más rápido que a mano</div></div>
-        <div><div class="stat-num">A1–C2</div><div class="stat-label">todos los niveles MCER</div></div>
-        <div><div class="stat-num">iDoceo</div><div class="stat-label">exportación directa</div></div>
-      </div>
-      <div class="hero-actions">
-        <a href="/app" class="btn-primary">Empieza gratis →</a>
-        <a href="#demo" class="btn-secondary">Ver ejemplo</a>
-      </div>
+<div style="background:var(--bg)">
+<div class="hero">
+  <div>
+    <div class="hero-badge"><div class="hero-badge-dot"></div>IA para profesores de inglés</div>
+    <h1 class="hero-title">Corrige writings con <em>precisión,</em> en segundos</h1>
+    <p class="hero-sub">La herramienta que estabas esperando. Nota sobre 10, errores explicados y feedback listo para entregar — calibrado al nivel MCER de cada alumno.</p>
+    <div class="hero-stats">
+      <div><div class="stat-num">10×</div><div class="stat-label">más rápido que a mano</div></div>
+      <div><div class="stat-num">A1–C2</div><div class="stat-label">todos los niveles MCER</div></div>
+      <div><div class="stat-num">iDoceo</div><div class="stat-label">exportación directa</div></div>
     </div>
-
-    <!-- AUTH CARD -->
-    <div class="auth-card" id="auth-card">
-      <div class="auth-tabs">
-        <button class="auth-tab active" onclick="switchTab('login')">Entrar</button>
-        <button class="auth-tab" onclick="switchTab('register')">Crear cuenta</button>
-      </div>
-      <div id="auth-err" class="auth-err" style="display:none"></div>
-      <div id="auth-ok" style="background:rgba(26,127,90,0.2);border:1px solid rgba(26,127,90,0.4);border-radius:7px;padding:9px 12px;font-size:12px;color:#5DCAA5;margin-bottom:12px;display:none"></div>
-
-      <h2 class="auth-title" id="auth-title">Bienvenida de nuevo</h2>
-      <p class="auth-sub" id="auth-sub">Accede a tu corrector de writings.</p>
-
-      <div id="field-name" style="display:none" class="auth-field">
-        <label>Nombre</label>
-        <input type="text" id="inp-name" placeholder="Tu nombre" />
-      </div>
-      <div class="auth-field">
-        <label>Email</label>
-        <input type="email" id="inp-email" placeholder="tu@email.com" />
-      </div>
-      <div class="auth-field">
-        <label>Contraseña</label>
-        <input type="password" id="inp-pass" placeholder="••••••" onkeydown="if(event.key==='Enter')submitAuth()" />
-      </div>
-      <div id="field-center" style="display:none" class="auth-field">
-        <label>Centro <span style="font-weight:300;text-transform:none;letter-spacing:0">(opcional)</span></label>
-        <input type="text" id="inp-center" placeholder="IES Nombre" />
-      </div>
-
-      <button class="auth-btn" id="auth-btn" onclick="submitAuth()">Entrar</button>
-      <div class="auth-switch" id="auth-switch">
-        ¿No tienes cuenta? <a onclick="switchTab('register')">Regístrate gratis</a>
-      </div>
+    <div class="hero-actions">
+      <a href="/app" class="btn-primary">Empieza gratis →</a>
+      <a href="#ejemplo" class="btn-secondary">Ver ejemplo</a>
     </div>
   </div>
-</section>
-
-<!-- FEATURES -->
-<section id="funciones" style="background:var(--bg);padding-top:16px">
-  <div class="features">
-    <div class="section-label">Qué incluye</div>
-    <h2 class="section-title">Todo lo que necesitas para corregir writings</h2>
-    <p class="section-sub">Sin hojas de cálculo, sin rúbricas manuales. La IA hace el trabajo pesado.</p>
-    <div class="feat-grid">
-      <div class="feat-card feat-navy">
-        <span class="feat-icon">📊</span>
-        <div class="feat-name">Nota sobre 10 y criterios MCER</div>
-        <div class="feat-desc">Gramática, vocabulario, ortografía y coherencia desglosados con barra visual por criterio.</div>
-      </div>
-      <div class="feat-card feat-accent">
-        <span class="feat-icon">✏️</span>
-        <div class="feat-name">Errores marcados en el texto</div>
-        <div class="feat-desc">Cada error subrayado en el writing original con corrección y explicación pedagógica en español.</div>
-      </div>
-      <div class="feat-card feat-green">
-        <span class="feat-icon">💬</span>
-        <div class="feat-name">Feedback para el alumno</div>
-        <div class="feat-desc">Mensaje positivo y constructivo en español o inglés, listo para entregar al momento.</div>
-      </div>
-      <div class="feat-card feat-blue">
-        <span class="feat-icon">📷</span>
-        <div class="feat-name">Corrección por foto</div>
-        <div class="feat-desc">Sube una foto del examen en papel. La IA transcribe y corrige automáticamente.</div>
-      </div>
-      <div class="feat-card feat-amber">
-        <span class="feat-icon">📄</span>
-        <div class="feat-name">PDF e iDoceo</div>
-        <div class="feat-desc">Informe listo para imprimir y CSV para importar en iDoceo o Google Classroom.</div>
-      </div>
-      <div class="feat-card feat-white">
-        <span class="feat-icon">📚</span>
-        <div class="feat-name">Historial en la nube</div>
-        <div class="feat-desc">Todas las correcciones guardadas y accesibles desde cualquier dispositivo.</div>
-      </div>
+  <div class="auth-card">
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="showTab('login')">Entrar</button>
+      <button class="auth-tab" id="tab-register" onclick="showTab('register')">Crear cuenta</button>
+    </div>
+    <div id="login-form">
+      <div class="auth-title">Bienvenida de nuevo</div>
+      <div class="auth-sub">Accede a tu corrector de writings.</div>
+      <div id="login-err"></div>
+      <div class="auth-field"><label>Email</label><input type="email" id="login-email" placeholder="tu@email.com" /></div>
+      <div class="auth-field"><label>Contraseña</label><input type="password" id="login-pass" placeholder="••••••" onkeydown="if(event.key==='Enter')doLogin()" /></div>
+      <button class="auth-btn" onclick="doLogin()">Entrar</button>
+      <div class="auth-switch">¿No tienes cuenta? <a onclick="showTab('register')">Regístrate gratis</a></div>
+    </div>
+    <div id="register-form" style="display:none">
+      <div class="auth-title">Crea tu cuenta</div>
+      <div class="auth-sub">5 correcciones gratuitas para empezar.</div>
+      <div id="register-err"></div>
+      <div class="auth-field"><label>Nombre</label><input type="text" id="reg-name" placeholder="Tu nombre" /></div>
+      <div class="auth-field"><label>Email</label><input type="email" id="reg-email" placeholder="tu@email.com" /></div>
+      <div class="auth-field"><label>Contraseña</label><input type="password" id="reg-pass" placeholder="••••••" /></div>
+      <div class="auth-field"><label>Centro <span style="font-weight:300;text-transform:none;letter-spacing:0">(opcional)</span></label><input type="text" id="reg-center" placeholder="IES Nombre" /></div>
+      <button class="auth-btn" onclick="doRegister()">Crear cuenta gratis</button>
+      <div class="auth-switch">¿Ya tienes cuenta? <a onclick="showTab('login')">Entra aquí</a></div>
     </div>
   </div>
-</section>
+</div>
+</div>
 
-<!-- DEMO -->
-<section id="demo" style="background:var(--bg);padding-top:8px">
-  <div class="demo">
-    <div class="section-label">Ejemplo real</div>
-    <h2 class="section-title">Así queda una corrección</h2>
-    <p class="section-sub" style="margin-bottom:28px"></p>
-    <div class="mock-browser">
-      <div class="mock-bar">
-        <div class="mock-dots">
-          <div class="mock-dot" style="background:#E24B4A"></div>
-          <div class="mock-dot" style="background:#EF9F27"></div>
-          <div class="mock-dot" style="background:#639922"></div>
-        </div>
-        <div class="mock-url">writingcorrect.com · Corrección · 1º ESO — B1</div>
+<div id="funciones" style="background:var(--bg);padding-top:52px">
+<div class="features">
+  <div class="section-label">Qué incluye</div>
+  <h2 class="section-title">Todo lo que necesitas para corregir writings</h2>
+  <p class="section-sub">Sin hojas de cálculo, sin rúbricas manuales. La IA hace el trabajo pesado.</p>
+  <div class="feat-grid">
+    <div class="feat-card feat-navy"><span class="feat-icon">📊</span><div class="feat-name">Nota sobre 10 y criterios MCER</div><div class="feat-desc">Gramática, vocabulario, ortografía y coherencia — desglosados por criterio con barra visual.</div></div>
+    <div class="feat-card feat-accent"><span class="feat-icon">✏️</span><div class="feat-name">Errores marcados en el texto</div><div class="feat-desc">Cada error subrayado en el writing original con su corrección y explicación pedagógica.</div></div>
+    <div class="feat-card feat-green"><span class="feat-icon">💬</span><div class="feat-name">Feedback para el alumno</div><div class="feat-desc">Mensaje positivo y constructivo en español o inglés, listo para entregar al momento.</div></div>
+    <div class="feat-card feat-blue"><span class="feat-icon">📷</span><div class="feat-name">Corrección por foto</div><div class="feat-desc">Sube una foto del examen en papel. La IA transcribe y corrige automáticamente.</div></div>
+    <div class="feat-card feat-amber"><span class="feat-icon">📄</span><div class="feat-name">PDF e iDoceo</div><div class="feat-desc">Informe listo para imprimir y CSV para importar en iDoceo o Google Classroom.</div></div>
+    <div class="feat-card feat-white"><span class="feat-icon">📚</span><div class="feat-name">Historial en la nube</div><div class="feat-desc">Todas las correcciones guardadas y accesibles desde cualquier dispositivo.</div></div>
+  </div>
+</div>
+</div>
+
+<div id="ejemplo" style="background:var(--bg);padding-bottom:60px">
+<div class="preview">
+  <div class="section-label">Ejemplo real</div>
+  <h2 class="section-title" style="margin-bottom:32px">Así queda una corrección</h2>
+  <div class="mock-browser">
+    <div class="mock-bar">
+      <div class="mock-dots">
+        <div class="mock-dot" style="background:#E24B4A"></div>
+        <div class="mock-dot" style="background:#EF9F27"></div>
+        <div class="mock-dot" style="background:#639922"></div>
       </div>
-      <div class="mock-body">
-        <div class="mock-col">
-          <div class="mock-col-label">Writing del alumno</div>
-          <div class="mock-text">My football club is very <span class="err-g">importants</span> in our city. We practise every tuesday and thursday. The <span class="err-s">coatch</span> is very strict but we learn a lot. I think football is the best sport in the world.</div>
-          <div class="mock-legend">
-            <div class="mock-leg leg-g"><span style="width:7px;height:7px;border-radius:50%;background:#E24B4A;display:inline-block"></span>Gramática</div>
-            <div class="mock-leg leg-s"><span style="width:7px;height:7px;border-radius:50%;background:#378ADD;display:inline-block"></span>Ortografía</div>
-          </div>
+      <div class="mock-url">writingcorrect.com · Corrección · 1º ESO — B1</div>
+    </div>
+    <div class="mock-body">
+      <div class="mock-col">
+        <div class="mock-col-label">Writing del alumno</div>
+        <div class="mock-text">My football club is very <span class="err-g">importants</span> in our city. We practise every tuesday. The <span class="err-s">coatch</span> is very strict but we learn a lot. I think football is the best sport in the world.</div>
+        <div class="mock-legend">
+          <div class="leg leg-g"><span style="width:7px;height:7px;border-radius:50%;background:#E24B4A;display:inline-block"></span>Gramática</div>
+          <div class="leg leg-s"><span style="width:7px;height:7px;border-radius:50%;background:#378ADD;display:inline-block"></span>Ortografía</div>
         </div>
-        <div class="mock-col">
-          <div class="mock-col-label">Resultado</div>
-          <div class="score-big"><div class="score-n">5,8</div><div class="score-d">/10</div></div>
-          <div class="score-sub">Nivel A2–B1</div>
-          <div class="bar-row"><div class="bar-name">Gramática</div><div class="bar-track"><div class="bar-fill" style="width:55%;background:#E24B4A"></div></div><div class="bar-val">5.5</div></div>
-          <div class="bar-row"><div class="bar-name">Vocabulario</div><div class="bar-track"><div class="bar-fill" style="width:65%;background:#1D6FA4"></div></div><div class="bar-val">6.5</div></div>
-          <div class="bar-row"><div class="bar-name">Ortografía</div><div class="bar-track"><div class="bar-fill" style="width:70%;background:#639922"></div></div><div class="bar-val">7.0</div></div>
-          <div class="bar-row"><div class="bar-name">Coherencia</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:#1D6FA4"></div></div><div class="bar-val">6.0</div></div>
-          <div class="mock-feedback">
-            <div class="mock-feedback-label">Feedback al alumno</div>
-            <div class="mock-feedback-text">Good effort! Your ideas are clear. Focus on adjective agreement and double-check your spelling before submitting.</div>
-          </div>
+      </div>
+      <div class="mock-col">
+        <div class="mock-col-label">Resultado</div>
+        <div class="score-big"><div class="score-n">5,8</div><div class="score-d">/10 · Nivel A2–B1</div></div>
+        <div style="margin-bottom:14px"></div>
+        <div class="bar-row"><div class="bar-name">Gramática</div><div class="bar-track"><div class="bar-fill" style="width:55%;background:#E24B4A"></div></div><div class="bar-val">5.5</div></div>
+        <div class="bar-row"><div class="bar-name">Vocabulario</div><div class="bar-track"><div class="bar-fill" style="width:65%;background:var(--accent)"></div></div><div class="bar-val">6.5</div></div>
+        <div class="bar-row"><div class="bar-name">Ortografía</div><div class="bar-track"><div class="bar-fill" style="width:70%;background:#639922"></div></div><div class="bar-val">7.0</div></div>
+        <div class="bar-row"><div class="bar-name">Coherencia</div><div class="bar-track"><div class="bar-fill" style="width:60%;background:var(--accent)"></div></div><div class="bar-val">6.0</div></div>
+        <div class="mock-feedback">
+          <div class="mock-fb-label">Feedback al alumno</div>
+          <div class="mock-fb-text">Good effort! Your ideas are clear and well organised. Focus on adjective agreement and double-check your spelling before submitting.</div>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>
+</div>
 
-<!-- PLANES -->
-<section id="precios">
-  <div class="plans">
-    <div class="plans-inner">
-      <div class="section-label" style="color:#7EC8F0">Precios</div>
-      <h2 class="section-title" style="color:white">Empieza gratis, crece cuando quieras</h2>
-      <p class="section-sub" style="color:rgba(255,255,255,0.5)">Sin permanencia · Cancela cuando quieras · Para profesores de inglés en todo el mundo hispanohablante</p>
-      <div class="plans-grid">
-        <div class="plan-card">
-          <div class="plan-name">Gratuito</div>
-          <div class="plan-price">0€ <span>/mes</span></div>
-          <ul class="plan-feats">
-            <li>5 correcciones al mes</li>
-            <li>PDF básico</li>
-            <li>Ideal para probar</li>
-          </ul>
-          <button class="plan-btn plan-btn-o" onclick="window.location.href='/app'">Empezar gratis</button>
-        </div>
-        <div class="plan-card featured">
-          <div class="plan-badge">⭐ Más popular</div>
-          <div class="plan-name">Profesor</div>
-          <div class="plan-price">9,99€ <span>/mes</span></div>
-          <ul class="plan-feats">
-            <li>250 correcciones al mes</li>
-            <li>PDF completo + iDoceo</li>
-            <li>Historial en la nube</li>
-            <li>Corrección por foto</li>
-          </ul>
-          <button class="plan-btn plan-btn-s" onclick="window.location.href='/app'">Elegir Profesor</button>
-        </div>
-        <div class="plan-card">
-          <div class="plan-name">Centro</div>
-          <div class="plan-price">39€ <span>/mes</span></div>
-          <ul class="plan-feats">
-            <li>Correcciones ilimitadas</li>
-            <li>Hasta 5 profesores</li>
-            <li>Soporte prioritario</li>
-          </ul>
-          <button class="plan-btn plan-btn-o" onclick="window.location.href='/app'">Elegir Centro</button>
-        </div>
+<div id="precios" class="plans-section">
+  <div class="plans-inner">
+    <div class="section-label" style="color:#7EC8F0">Precios</div>
+    <h2 class="section-title" style="color:white">Empieza gratis, crece cuando quieras</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.5)">Sin permanencia · Cancela cuando quieras · Para profesores de inglés en todo el mundo hispanohablante</p>
+    <div class="plans-grid">
+      <div class="plan-card">
+        <div class="plan-name">Gratuito</div>
+        <div class="plan-price">0€ <span>/mes</span></div>
+        <ul class="plan-feats"><li>5 correcciones al mes</li><li>PDF básico</li><li>Ideal para probar</li></ul>
+        <a href="/app" class="plan-btn plan-btn-o">Empezar gratis</a>
+      </div>
+      <div class="plan-card featured">
+        <div class="plan-badge">⭐ Más popular</div>
+        <div class="plan-name">Profesor</div>
+        <div class="plan-price">9,99€ <span>/mes</span></div>
+        <ul class="plan-feats"><li>250 correcciones al mes</li><li>PDF completo + iDoceo</li><li>Historial en la nube</li><li>Corrección por foto</li></ul>
+        <a href="/app" class="plan-btn plan-btn-s">Elegir Profesor</a>
+      </div>
+      <div class="plan-card">
+        <div class="plan-name">Centro</div>
+        <div class="plan-price">39€ <span>/mes</span></div>
+        <ul class="plan-feats"><li>Correcciones ilimitadas</li><li>Hasta 5 profesores</li><li>Soporte prioritario</li></ul>
+        <a href="/app" class="plan-btn plan-btn-o">Elegir Centro</a>
       </div>
     </div>
   </div>
-</section>
+</div>
 
 <footer>
-  <p>WritingCorrect · writingcorrect.com · Hecho para profesores de inglés en todo el mundo hispanohablante</p>
+  <div class="footer-text">WritingCorrect · writingcorrect.com · Hecho para profesores de inglés en todo el mundo hispanohablante</div>
 </footer>
 
-<!-- Supabase SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-const SB_URL = 'https://onrnbbjajlmdesoyqcrf.supabase.co';
-const SB_KEY = 'sb_publishable_amUFB6H9kpPoNJ3iHN-udA_6VsJwmzQ';
-const sb = window.supabase.createClient(SB_URL, SB_KEY);
+const sb = window.supabase.createClient('https://onrnbbjajlmdesoyqcrf.supabase.co','sb_publishable_amUFB6H9kpPoNJ3iHN-udA_6VsJwmzQ');
 
-let currentTab = 'login';
-
-function switchTab(tab) {
-  currentTab = tab;
-  document.getElementById('auth-err').style.display = 'none';
-  document.getElementById('auth-ok').style.display = 'none';
-  const tabs = document.querySelectorAll('.auth-tab');
-  tabs[0].classList.toggle('active', tab === 'login');
-  tabs[1].classList.toggle('active', tab === 'register');
-  document.getElementById('auth-title').textContent = tab === 'login' ? 'Bienvenida de nuevo' : 'Crea tu cuenta';
-  document.getElementById('auth-sub').textContent = tab === 'login' ? 'Accede a tu corrector de writings.' : '5 correcciones gratuitas para empezar.';
-  document.getElementById('field-name').style.display = tab === 'register' ? 'block' : 'none';
-  document.getElementById('field-center').style.display = tab === 'register' ? 'block' : 'none';
-  document.getElementById('auth-btn').textContent = tab === 'login' ? 'Entrar' : 'Crear cuenta gratis';
-  document.getElementById('auth-switch').innerHTML = tab === 'login'
-    ? '¿No tienes cuenta? <a onclick="switchTab(\'register\')">Regístrate gratis</a>'
-    : '¿Ya tienes cuenta? <a onclick="switchTab(\'login\')">Entra aquí</a>';
+function showTab(tab) {
+  document.getElementById('login-form').style.display = tab==='login'?'block':'none';
+  document.getElementById('register-form').style.display = tab==='register'?'block':'none';
+  document.getElementById('tab-login').classList.toggle('active',tab==='login');
+  document.getElementById('tab-register').classList.toggle('active',tab==='register');
 }
 
-function showErr(msg) {
-  const el = document.getElementById('auth-err');
-  el.textContent = msg;
-  el.style.display = 'block';
+function showErr(id,msg) {
+  document.getElementById(id).innerHTML = msg?`<div class="auth-err">${msg}</div>`:'';
 }
 
-function showOk(msg) {
-  const el = document.getElementById('auth-ok');
-  el.textContent = msg;
-  el.style.display = 'block';
+async function doLogin() {
+  showErr('login-err','');
+  const email = document.getElementById('login-email').value;
+  const pass = document.getElementById('login-pass').value;
+  if (!email.includes('@')) return showErr('login-err','Email inválido.');
+  if (pass.length<6) return showErr('login-err','Contraseña mínimo 6 caracteres.');
+  const {error} = await sb.auth.signInWithPassword({email,password:pass});
+  if (error) return showErr('login-err',error.message.includes('Invalid')?'Email o contraseña incorrectos.':error.message);
+  window.location.href='/app';
 }
 
-async function submitAuth() {
-  document.getElementById('auth-err').style.display = 'none';
-  document.getElementById('auth-ok').style.display = 'none';
-  const email = document.getElementById('inp-email').value.trim();
-  const pass  = document.getElementById('inp-pass').value;
-  const btn   = document.getElementById('auth-btn');
-
-  if (!email.includes('@')) return showErr('Email inválido.');
-  if (pass.length < 6) return showErr('La contraseña debe tener al menos 6 caracteres.');
-
-  btn.textContent = 'Un momento…';
-  btn.disabled = true;
-
-  try {
-    if (currentTab === 'register') {
-      const name   = document.getElementById('inp-name').value.trim();
-      const center = document.getElementById('inp-center').value.trim();
-      if (!name) { btn.textContent = 'Crear cuenta gratis'; btn.disabled = false; return showErr('Introduce tu nombre.'); }
-
-      const { data, error } = await sb.auth.signUp({
-        email, password: pass,
-        options: { data: { name, center } }
-      });
-      if (error) throw error;
-
-      if (data.session) {
-        window.location.href = '/app';
-      } else {
-        showOk('¡Cuenta creada! Revisa tu email para confirmarla y vuelve a entrar.');
-        btn.textContent = 'Crear cuenta gratis';
-        btn.disabled = false;
-      }
-    } else {
-      const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-      if (error) {
-        if (error.message.includes('Invalid login')) throw new Error('Email o contraseña incorrectos.');
-        if (error.message.includes('Email not confirmed')) throw new Error('Confirma tu email antes de entrar.');
-        throw error;
-      }
-      window.location.href = '/app';
-    }
-  } catch(e) {
-    showErr(e.message || 'Error desconocido.');
-    btn.textContent = currentTab === 'login' ? 'Entrar' : 'Crear cuenta gratis';
-    btn.disabled = false;
-  }
+async function doRegister() {
+  showErr('register-err','');
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value;
+  const pass = document.getElementById('reg-pass').value;
+  const center = document.getElementById('reg-center').value.trim();
+  if (!name) return showErr('register-err','Introduce tu nombre.');
+  if (!email.includes('@')) return showErr('register-err','Email inválido.');
+  if (pass.length<6) return showErr('register-err','Contraseña mínimo 6 caracteres.');
+  const {data,error} = await sb.auth.signUp({email,password:pass,options:{data:{name,center}}});
+  if (error) return showErr('register-err',error.message);
+  if (data.session) { window.location.href='/app'; }
+  else { document.getElementById('register-form').innerHTML='<div class="auth-ok">¡Cuenta creada! Revisa tu email para confirmarla y después entra.</div>'; }
 }
 
-// Si ya hay sesión activa, redirigir a /app
-sb.auth.getSession().then(({ data: { session } }) => {
-  if (session) window.location.href = '/app';
-});
+sb.auth.getSession().then(({data:{session}})=>{ if(session) window.location.href='/app'; });
 </script>
 </body>
 </html>
