@@ -1,8 +1,10 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/",    "destination": "/api/home" },
-    { "source": "/app", "destination": "/api/app" },
-    { "source": "/app/","destination": "/api/app" }
+    { "source": "/",       "destination": "/api/home" },
+    { "source": "/app",    "destination": "/api/app" },
+    { "source": "/app/",   "destination": "/api/app" },
+    { "source": "/clases", "destination": "/api/clases" },
+    { "source": "/clases/","destination": "/api/clases" }
   ]
 }
