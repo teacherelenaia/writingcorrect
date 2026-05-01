@@ -1,11 +1,12 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/",           "destination": "/api/home" },
-    { "source": "/app",        "destination": "/api/app" },
-    { "source": "/app/",       "destination": "/api/app" },
-    { "source": "/api/bundle", "destination": "/api/bundle" },
-    { "source": "/clases",     "destination": "/api/clases" },
-    { "source": "/clases/",    "destination": "/api/clases" }
+    { "source": "/",                   "destination": "/api/home" },
+    { "source": "/app",                "destination": "/api/app" },
+    { "source": "/app/",               "destination": "/api/app" },
+    { "source": "/api/bundle",         "destination": "/api/bundle" },
+    { "source": "/api/clases-bundle",  "destination": "/api/clases-bundle" },
+    { "source": "/clases",             "destination": "/api/clases" },
+    { "source": "/clases/",            "destination": "/api/clases" }
   ]
 }
