@@ -7,6 +7,8 @@
     { "source": "/api/bundle",         "destination": "/api/bundle" },
     { "source": "/api/clases-bundle",  "destination": "/api/clases-bundle" },
     { "source": "/clases",             "destination": "/api/clases" },
-    { "source": "/clases/",            "destination": "/api/clases" }
+    { "source": "/clases/",            "destination": "/api/clases" },
+    { "source": "/api/google-auth",    "destination": "/api/google-auth" },
+    { "source": "/api/google-callback", "destination": "/api/google-callback" }
   ]
 }
