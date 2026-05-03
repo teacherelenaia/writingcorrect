@@ -1,14 +1,18 @@
 {
   "version": 2,
   "rewrites": [
-    { "source": "/",                   "destination": "/api/home" },
-    { "source": "/app",                "destination": "/api/app" },
-    { "source": "/app/",               "destination": "/api/app" },
-    { "source": "/api/bundle",         "destination": "/api/bundle" },
-    { "source": "/api/clases-bundle",  "destination": "/api/clases-bundle" },
-    { "source": "/clases",             "destination": "/api/clases" },
-    { "source": "/clases/",            "destination": "/api/clases" },
-    { "source": "/api/google-auth",    "destination": "/api/google-auth" },
-    { "source": "/api/google-callback", "destination": "/api/google-callback" }
+    { "source": "/",                        "destination": "/api/home" },
+    { "source": "/app",                     "destination": "/api/app" },
+    { "source": "/app/",                    "destination": "/api/app" },
+    { "source": "/api/bundle",              "destination": "/api/bundle" },
+    { "source": "/api/clases-bundle",       "destination": "/api/clases-bundle" },
+    { "source": "/api/rubricas-bundle",     "destination": "/api/rubricas-bundle" },
+    { "source": "/api/extract-rubrica",     "destination": "/api/extract-rubrica" },
+    { "source": "/clases",                  "destination": "/api/clases" },
+    { "source": "/clases/",                 "destination": "/api/clases" },
+    { "source": "/rubricas",                "destination": "/api/rubricas" },
+    { "source": "/rubricas/",              "destination": "/api/rubricas" },
+    { "source": "/api/google-auth",         "destination": "/api/google-auth" },
+    { "source": "/api/google-callback",     "destination": "/api/google-callback" }
   ]
 }
