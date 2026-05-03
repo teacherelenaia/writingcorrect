@@ -1,7 +1,7 @@
 export const config = { runtime: 'edge' };
 
 const SUPABASE_URL = 'https://onrnbbjajlmdesoyqcrf.supabase.co';
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ucm5iYmphamxtZGVzb3lxY3JmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMDY1MjksImV4cCI6MjA5MjY4MjUyOX0.paqP-s9aD6tjXyuizKjYH4hksXY2Ebb0tzmRR5bCY6I';
 
 export default async function handler(req) {
   const url = new URL(req.url);
@@ -134,8 +134,8 @@ export default async function handler(req) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ucm5iYmphamxtZGVzb3lxY3JmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU0MjcwODUsImV4cCI6MjA2MTAwMzA4NX0.4_sMtDiGRHGDvXUAiVMVDvxMkjFpMujmK8f6pIk9QaQ',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ucm5iYmphamxtZGVzb3lxY3JmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU0MjcwODUsImV4cCI6MjA2MTAwMzA4NX0.4_sMtDiGRHGDvXUAiVMVDvxMkjFpMujmK8f6pIk9QaQ',
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ucm5iYmphamxtZGVzb3lxY3JmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMDY1MjksImV4cCI6MjA5MjY4MjUyOX0.paqP-s9aD6tjXyuizKjYH4hksXY2Ebb0tzmRR5bCY6I',
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ucm5iYmphamxtZGVzb3lxY3JmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcxMDY1MjksImV4cCI6MjA5MjY4MjUyOX0.paqP-s9aD6tjXyuizKjYH4hksXY2Ebb0tzmRR5bCY6I',
             'Prefer': 'return=minimal',
           },
           body: JSON.stringify(alumnos),
