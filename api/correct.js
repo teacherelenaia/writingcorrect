@@ -200,6 +200,30 @@ ${jsonEstructura}`;
       });
     }
 
+        // Si hay rúbrica, segunda llamada para rubrica_detalle
+    if (criterio === 'rubrica' && rubrica_contenido && !resultado.rubrica_detalle) {
+      try {
+        const rp = `Evalúa este writing según la rúbrica. Responde SOLO con JSON sin markdown.\n\nRÚBRICA:\n${rubrica_contenido}\n\nWRITING:\n${texto}\n\nPara cada criterio devuelve: criterio (nombre), puntos_obtenidos (número), puntos_maximos (número), nivel_descriptor (texto del nivel alcanzado).\n\n{"rubrica_detalle":[{"criterio":"...","puntos_obtenidos":0,"puntos_maximos":0,"nivel_descriptor":"..."}]}`;
+        const r2 = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
+          body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1500, messages: [{ role: 'user', content: rp }] }),
+        });
+        const d2 = await r2.json();
+        const raw2 = d2.content?.[0]?.text || '';
+        const i2 = raw2.indexOf('{'); const f2 = raw2.lastIndexOf('}');
+        if (i2 !== -1 && f2 !== -1) {
+          const p2 = JSON.parse(raw2.slice(i2, f2 + 1));
+          if (p2.rubrica_detalle) {
+            resultado.rubrica_detalle = p2.rubrica_detalle;
+            const tot = p2.rubrica_detalle.reduce((s, d) => s + (d.puntos_obtenidos || 0), 0);
+            const max = p2.rubrica_detalle.reduce((s, d) => s + (d.puntos_maximos || 0), 0);
+            if (max > 0) resultado.nota = Math.round((tot / max) * 100) / 10;
+          }
+        }
+      } catch(e) {}
+    }
+
     return new Response(JSON.stringify(resultado), {
       status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
