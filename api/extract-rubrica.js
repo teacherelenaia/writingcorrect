@@ -56,8 +56,8 @@ Si la rúbrica no tiene exactamente 4 niveles, adapta las columnas a los niveles
     });
 
     const data = await res.json();
-    const texto = data.content?.[0]?.text || '';
-    return new Response(JSON.stringify({ texto }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    const textoExtraido = data.content?.[0]?.text || '';
+    return new Response(JSON.stringify({ texto: textoExtraido }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
   }
