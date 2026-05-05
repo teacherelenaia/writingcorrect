@@ -68,8 +68,11 @@ INSTRUCCIONES PARA LA PUNTUACIÓN:
 4. En "criterios" pon cada criterio con su puntuación convertida a 0-10.
 5. En "rubrica_detalle" incluye para cada criterio: criterio, puntos_obtenidos, puntos_maximos, nivel_descriptor.
 La nota final DEBE coincidir con el cálculo proporcional.`;
-      criteriosJSON = `"criterios": { "<nombre criterio>": <0-10> },
-  "rubrica_detalle": [{"criterio": "<nombre>", "puntos_obtenidos": <n>, "puntos_maximos": <n>, "nivel_descriptor": "<texto nivel alcanzado>"}]`;
+      criteriosJSON = `"criterios": { "<nombre criterio 1>": <0-10>, "<nombre criterio 2>": <0-10> },
+  "rubrica_detalle": [
+    {"criterio": "<nombre criterio 1>", "puntos_obtenidos": <n>, "puntos_maximos": <n>, "nivel_descriptor": "<texto exacto del nivel alcanzado según la rúbrica>"},
+    {"criterio": "<nombre criterio 2>", "puntos_obtenidos": <n>, "puntos_maximos": <n>, "nivel_descriptor": "<texto exacto del nivel alcanzado según la rúbrica>"}
+  ]`;
     } else if (criterio === 'nivel_eso') {
       criterioBloqueTexto = `
 CRITERIO DE CORRECCIÓN: ESO (${nivelInfo})
@@ -140,9 +143,11 @@ INSTRUCCIONES GENERALES:
 - "strengths": 3 puntos fuertes específicos del writing.
 - "improvements": 3 áreas concretas a mejorar con consejo práctico.
 
-Devuelve SOLO un objeto JSON válido, sin markdown, sin texto extra:
+Devuelve SOLO un objeto JSON válido, sin markdown, sin texto extra.
+${criterio === 'rubrica' && rubrica_contenido ? `El JSON DEBE incluir obligatoriamente el campo "rubrica_detalle" con la evaluación detallada por criterio de la rúbrica.` : ''}
+
 {
-  "nota": <0-10 con un decimal>,
+  "nota": <0-10 con un decimal, calculado proporcionalmente según la rúbrica si se usa>,
   "nivel_detectado": "<nivel MCER detectado>",
   "comentario_profesor": "<3-4 frases en español>",
   ${criteriosJSON},
