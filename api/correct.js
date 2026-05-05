@@ -128,27 +128,27 @@ Corrige con tu criterio profesional como profesor experto de inglés, adaptando 
     const usaRubrica = criterio === 'rubrica' && rubrica_contenido;
 
     const jsonEstructura = usaRubrica ? `{
-  "nota": <0-10 con un decimal, resultado de (suma puntos obtenidos / suma puntos maximos) x 10>,
-  "nivel_detectado": "<nivel MCER detectado>",
-  "comentario_profesor": "<3-4 frases en español>",
-  ${criteriosJSON},
-  "errores": [
-    {"tipo": "<Gramática|Vocabulario|Ortografía|Puntuación|Estilo>", "original": "<texto exacto>", "correcto": "<corregido>", "explicacion": "<1-2 frases en español>"}
+  "nota": 7.5,
+  "nivel_detectado": "B2",
+  "comentario_profesor": "...",
+  "criterios": {"Criterio 1": 8.0, "Criterio 2": 7.0},
+  "rubrica_detalle": [
+    {"criterio": "Criterio 1", "puntos_obtenidos": 2, "puntos_maximos": 3, "nivel_descriptor": "Texto del nivel alcanzado"},
+    {"criterio": "Criterio 2", "puntos_obtenidos": 2, "puntos_maximos": 3, "nivel_descriptor": "Texto del nivel alcanzado"}
   ],
-  "strengths": ["<punto fuerte 1>", "<punto fuerte 2>", "<punto fuerte 3>"],
-  "improvements": ["<a mejorar 1>", "<a mejorar 2>", "<a mejorar 3>"],
-  "feedback_alumno": "<4-5 frases en ${idiomaFeedback}>"
+  "errores": [{"tipo": "Gramática", "original": "texto", "correcto": "texto", "explicacion": "..."}],
+  "strengths": ["punto 1", "punto 2", "punto 3"],
+  "improvements": ["mejora 1", "mejora 2", "mejora 3"],
+  "feedback_alumno": "..."
 }` : `{
-  "nota": <0-10 con un decimal>,
-  "nivel_detectado": "<nivel MCER detectado>",
-  "comentario_profesor": "<3-4 frases en español>",
+  "nota": 7.5,
+  "nivel_detectado": "B2",
+  "comentario_profesor": "...",
   ${criteriosJSON},
-  "errores": [
-    {"tipo": "<Gramática|Vocabulario|Ortografía|Puntuación|Estilo>", "original": "<texto exacto>", "correcto": "<corregido>", "explicacion": "<1-2 frases en español>"}
-  ],
-  "strengths": ["<punto fuerte 1>", "<punto fuerte 2>", "<punto fuerte 3>"],
-  "improvements": ["<a mejorar 1>", "<a mejorar 2>", "<a mejorar 3>"],
-  "feedback_alumno": "<4-5 frases en ${idiomaFeedback}>"
+  "errores": [{"tipo": "Gramática", "original": "texto", "correcto": "texto", "explicacion": "..."}],
+  "strengths": ["punto 1", "punto 2", "punto 3"],
+  "improvements": ["mejora 1", "mejora 2", "mejora 3"],
+  "feedback_alumno": "..."
 }`;
 
     const prompt = `Eres un profesor experto de inglés en secundaria española. Corrige este writing de tipo "${tipoWriting}" para un alumno de ${nivelInfo}.
