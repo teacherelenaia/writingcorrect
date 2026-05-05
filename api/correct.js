@@ -57,12 +57,19 @@ export default async function handler(req) {
     if (criterio === 'rubrica' && rubrica_contenido) {
       criterioBloqueTexto = `
 RÚBRICA DE CORRECCIÓN DEL PROFESOR:
-El profesor ha proporcionado la siguiente rúbrica. Debes usarla como criterio principal para evaluar y puntuar el writing. Aplica EXACTAMENTE los criterios indicados en ella:
+Usa esta rúbrica como criterio EXCLUSIVO para evaluar el writing:
 ---
 ${rubrica_contenido}
 ---
-Extrae de la rúbrica los criterios de evaluación y úsalos en el campo "criterios" del JSON. Si la rúbrica define puntuaciones específicas, respétalas y conviértelas a escala 0-10.`;
-      criteriosJSON = `"criterios": { "<criterio de la rúbrica 1>": <0-10>, "<criterio de la rúbrica 2>": <0-10> }`;
+INSTRUCCIONES PARA LA PUNTUACIÓN:
+1. Extrae TODOS los criterios con sus puntuaciones máximas.
+2. Puntúa cada criterio según los descriptores de la rúbrica.
+3. Nota final = (suma puntos obtenidos / suma puntos máximos) × 10. Redondea a 1 decimal.
+4. En "criterios" pon cada criterio con su puntuación convertida a 0-10.
+5. En "rubrica_detalle" incluye para cada criterio: criterio, puntos_obtenidos, puntos_maximos, nivel_descriptor.
+La nota final DEBE coincidir con el cálculo proporcional.`;
+      criteriosJSON = `"criterios": { "<nombre criterio>": <0-10> },
+  "rubrica_detalle": [{"criterio": "<nombre>", "puntos_obtenidos": <n>, "puntos_maximos": <n>, "nivel_descriptor": "<texto nivel alcanzado>"}]`;
     } else if (criterio === 'nivel_eso') {
       criterioBloqueTexto = `
 CRITERIO DE CORRECCIÓN: ESO (${nivelInfo})
