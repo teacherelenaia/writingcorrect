@@ -67,11 +67,11 @@ INSTRUCCIONES PARA LA PUNTUACIÓN:
 3. Nota final = (suma puntos obtenidos / suma puntos máximos) × 10. Redondea a 1 decimal.
 4. En "criterios" pon cada criterio con su puntuación convertida a 0-10.
 5. En "rubrica_detalle" incluye para cada criterio: criterio, puntos_obtenidos, puntos_maximos, nivel_descriptor.
-La nota final DEBE coincidir con el cálculo proporcional.`;
-      criteriosJSON = `"criterios": { "<nombre criterio 1>": <0-10>, "<nombre criterio 2>": <0-10> },
+La nota final DEBE coincidir con el cálculo proporcional. IMPORTANTE: el campo rubrica_detalle es OBLIGATORIO en tu respuesta JSON.`;
+      criteriosJSON = `"criterios": { "CRITERIO_1": 7.5, "CRITERIO_2": 8.0 },
   "rubrica_detalle": [
-    {"criterio": "<nombre criterio 1>", "puntos_obtenidos": <n>, "puntos_maximos": <n>, "nivel_descriptor": "<texto exacto del nivel alcanzado según la rúbrica>"},
-    {"criterio": "<nombre criterio 2>", "puntos_obtenidos": <n>, "puntos_maximos": <n>, "nivel_descriptor": "<texto exacto del nivel alcanzado según la rúbrica>"}
+    {"criterio": "CRITERIO_1", "puntos_obtenidos": 2, "puntos_maximos": 3, "nivel_descriptor": "Descripción del nivel alcanzado según la rúbrica"},
+    {"criterio": "CRITERIO_2", "puntos_obtenidos": 3, "puntos_maximos": 3, "nivel_descriptor": "Descripción del nivel alcanzado según la rúbrica"}
   ]`;
     } else if (criterio === 'nivel_eso') {
       criterioBloqueTexto = `
@@ -200,29 +200,7 @@ ${jsonEstructura}`;
       });
     }
 
-        // Si hay rúbrica, segunda llamada para rubrica_detalle
-    if (criterio === 'rubrica' && rubrica_contenido && !resultado.rubrica_detalle) {
-      try {
-        const rp = `Evalúa este writing según la rúbrica. Responde SOLO con JSON sin markdown.\n\nRÚBRICA:\n${rubrica_contenido}\n\nWRITING:\n${texto}\n\nPara cada criterio devuelve: criterio (nombre), puntos_obtenidos (número), puntos_maximos (número), nivel_descriptor (texto del nivel alcanzado).\n\n{"rubrica_detalle":[{"criterio":"...","puntos_obtenidos":0,"puntos_maximos":0,"nivel_descriptor":"..."}]}`;
-        const r2 = await fetch('https://api.anthropic.com/v1/messages', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
-          body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1500, messages: [{ role: 'user', content: rp }] }),
-        });
-        const d2 = await r2.json();
-        const raw2 = d2.content?.[0]?.text || '';
-        const i2 = raw2.indexOf('{'); const f2 = raw2.lastIndexOf('}');
-        if (i2 !== -1 && f2 !== -1) {
-          const p2 = JSON.parse(raw2.slice(i2, f2 + 1));
-          if (p2.rubrica_detalle) {
-            resultado.rubrica_detalle = p2.rubrica_detalle;
-            const tot = p2.rubrica_detalle.reduce((s, d) => s + (d.puntos_obtenidos || 0), 0);
-            const max = p2.rubrica_detalle.reduce((s, d) => s + (d.puntos_maximos || 0), 0);
-            if (max > 0) resultado.nota = Math.round((tot / max) * 100) / 10;
-          }
-        }
-      } catch(e) {}
-    }
+    
 
     return new Response(JSON.stringify(resultado), {
       status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
