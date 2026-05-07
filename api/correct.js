@@ -175,7 +175,7 @@ ${jsonEstructura}`;
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: usaRubrica ? 'claude-sonnet-4-6' : 'claude-haiku-4-5-20251001', max_tokens: 4000, messages: [{ role: 'user', content: prompt }] }),
+      body: JSON.stringify({ model: usaRubrica ? 'claude-sonnet-4-6' : 'claude-haiku-4-5-20251001', max_tokens: 8000, messages: [{ role: 'user', content: prompt }] }),
     });
 
     if (!response.ok) {
@@ -192,10 +192,10 @@ ${jsonEstructura}`;
     try {
       const inicio = rawText.indexOf('{');
       const fin = rawText.lastIndexOf('}');
-      if (inicio === -1 || fin === -1) throw new Error('Sin JSON');
+      if (inicio === -1 || fin === -1) throw new Error('Sin JSON: ' + rawText.slice(0, 200));
       resultado = JSON.parse(rawText.slice(inicio, fin + 1));
     } catch (parseErr) {
-      return new Response(JSON.stringify({ error: 'Error parseando respuesta', detalle: parseErr.message }), {
+      return new Response(JSON.stringify({ error: 'Error parseando respuesta', detalle: parseErr.message, raw: rawText.slice(0, 500) }), {
         status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }
