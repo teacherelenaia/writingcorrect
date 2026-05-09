@@ -47,8 +47,10 @@ export default async function handler(req) {
 
     // NIVEL / CONTEXTO
     const nivelInfo = nivel ? `nivel MCER ${nivel}` : curso ? `${curso}` : 'B1';
-    const idiomaFeedback = idioma_feedback === 'en' ? 'inglés' : 'español';
+    const enIngles = idioma_feedback === 'en';
+    const idiomaFeedback = enIngles ? 'English' : 'español';
     const tipoWriting = writing_type || 'writing';
+    const lang = enIngles ? 'en' : 'es';
 
     // BLOQUE DE CRITERIO DE CORRECCIÓN
     let criterioBloqueTexto = '';
@@ -161,13 +163,13 @@ WRITING DEL ALUMNO:
 ${texto}
 
 INSTRUCCIONES GENERALES:
-- Detecta TODOS los errores (gramática, vocabulario, ortografía, puntuación, estilo).
-- En "original" pon el texto EXACTO con el error tal como aparece en el writing.
-- En "explicacion" da una explicación pedagógica clara en español (1-2 frases).
-- "comentario_profesor": valoración general para el profesor en español (3-4 frases sobre nivel, fortalezas, áreas de mejora y adecuación al tipo de texto "${tipoWriting}").
-- "feedback_alumno": mensaje motivador dirigido al alumno en ${idiomaFeedback} (4-5 frases). Reconoce lo positivo, señala 2-3 áreas concretas de mejora, termina con ánimo.
-- "strengths": 3 puntos fuertes específicos del writing.
-- "improvements": 3 áreas concretas a mejorar con consejo práctico.
+- Detect ALL errors (grammar, vocabulary, spelling, punctuation, style).
+- In "original" put the EXACT text with the error as it appears in the writing.
+- In "explicacion" give a clear pedagogical explanation in ${enIngles ? 'English' : 'Spanish'} (1-2 sentences).
+- "comentario_profesor": overall assessment for the teacher in ${enIngles ? 'English' : 'Spanish'} (3-4 sentences about level, strengths, areas for improvement and adequacy to the "${tipoWriting}" text type).
+- "feedback_alumno": motivating message for the student in ${idiomaFeedback} (4-5 sentences). Acknowledge the positives, point out 2-3 specific areas for improvement, end with encouragement.
+- "strengths": 3 specific strong points of the writing (in ${enIngles ? 'English' : 'Spanish'}).
+- "improvements": 3 concrete areas to improve with practical advice (in ${enIngles ? 'English' : 'Spanish'}).
 
 Devuelve SOLO un objeto JSON válido, sin markdown, sin texto extra:
 ${jsonEstructura}`;
