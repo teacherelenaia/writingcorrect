@@ -44,6 +44,40 @@ async function getUserIdByEmail(email) {
   return data || null;
 }
 
+async function sendConfirmationEmail(email, plan) {
+  const planNames = {
+    basic: 'B\u00e1sico (6,99\u20ac/mes)',
+    teacher: 'Profesor (9,99\u20ac/mes)',
+    center: 'Centro (39\u20ac/mes)'
+  };
+  const planName = planNames[plan] || plan;
+  try {
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'WritingCorrect <noreply@writingcorrect.com>',
+        to: email,
+        subject: '\u2705 Suscripci\u00f3n activada - WritingCorrect',
+        html: `
+          <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px;background:#f8fafc;border-radius:12px;">
+            <h1 style="color:#1e293b;font-size:24px;margin-bottom:8px;">\u00a1Bienvenida a WritingCorrect!</h1>
+            <p style="color:#475569;font-size:16px;">Tu suscripci\u00f3n al plan <strong>${planName}</strong> est\u00e1 activa.</p>
+            <p style="color:#475569;font-size:16px;">Ya puedes corregir writings con IA desde tu cuenta.</p>
+            <a href="https://writingcorrect.com/app" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#6366f1;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">Ir a WritingCorrect \u2192</a>
+            <p style="color:#94a3b8;font-size:13px;margin-top:24px;">Si tienes alguna duda, responde a este email.</p>
+          </div>
+        `,
+      }),
+    });
+  } catch (err) {
+    // Email failure shouldn't break webhook
+    console.error('Email error:', err.message);
+  }
+}
 async function verifyStripeSignature(payload, sigHeader, secret) {
   const parts = sigHeader.split(',').reduce((acc, part) => {
     const [k, v] = part.split('=');
@@ -130,6 +164,7 @@ export default async function handler(req) {
             updated_at: new Date().toISOString(),
           });
         }
+        if (email) await sendConfirmationEmail(email, plan);
         break;
       }
 
