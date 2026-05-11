@@ -1,6 +1,6 @@
 export const config = { runtime: 'edge' };
 
-const const PRICE_TO_PLAN = {
+const PRICE_TO_PLAN = {
   'price_1TVsHTDIUCWpQtLcd9xmefmw': 'basic',
   'price_1TVsHTDIUCWpQtLcCVrjtGI7': 'teacher',
   'price_1TVsHTDIUCWpQtLcHRFvFWgQ': 'center',
