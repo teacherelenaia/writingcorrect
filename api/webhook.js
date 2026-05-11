@@ -1,9 +1,9 @@
 export const config = { runtime: 'edge' };
 
-const PRICE_TO_PLAN = {
-  'price_1TQ6ZID4OTzYheExGNSUWHhJ': 'basic',
-  'price_1TQ6abD4OTzYheExYuDTrEq9': 'teacher',
-  'price_1TQ6bYD4OTzYheExarp2zPHc': 'center',
+const const PRICE_TO_PLAN = {
+  'price_1TVsHTDIUCWpQtLcd9xmefmw': 'basic',
+  'price_1TVsHTDIUCWpQtLcCVrjtGI7': 'teacher',
+  'price_1TVsHTDIUCWpQtLcHRFvFWgQ': 'center',
 };
 
 async function updateProfile(userId, data) {
