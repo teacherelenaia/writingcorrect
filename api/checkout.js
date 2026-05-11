@@ -1,9 +1,9 @@
 export const config = { runtime: 'edge' };
 
 const PRICE_IDS = {
-  basic:   'price_1TQ6ZID4OTzYheExGNSUWHhJ',
-  teacher: 'price_1TQ6abD4OTzYheExYuDTrEq9',
-  center:  'price_1TQ6bYD4OTzYheExarp2zPHc',
+  basic:   'price_1TVsHTDIUCWpQtLcd9xmefmw',
+  teacher: 'price_1TVsHTDIUCWpQtLcCVrjtGI7',
+  center:  'price_1TVsHTDIUCWpQtLcHRFvFWgQ',
 };
 
 const cors = {
