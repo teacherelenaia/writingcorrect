@@ -38,15 +38,27 @@ export default async function handler(req) {
               userId4Limit = uData?.id || null;
             }
             if (userId4Limit) {
-              const pRes = await fetch(SB_URL4 + '/rest/v1/profiles?id=eq.' + userId4Limit + '&select=plan,corrections_used', {
+              const pRes = await fetch(SB_URL4 + '/rest/v1/profiles?id=eq.' + userId4Limit + '&select=plan,corrections_used,corrections_reset_at', {
                 headers: { 'apikey': SB_SVC, 'Authorization': 'Bearer ' + SB_SVC, 'Accept': 'application/vnd.pgrst.object+json' }
               });
               if (pRes.ok) {
                 const prof = await pRes.json();
                 const planKey = prof?.plan || 'free';
                 const used = prof?.corrections_used || 0;
+                const resetAt = prof?.corrections_reset_at ? new Date(prof.corrections_reset_at) : null;
+                const now2 = new Date();
+                const needsReset = !resetAt || (resetAt.getFullYear() !== now2.getFullYear() || resetAt.getMonth() !== now2.getMonth());
+                let effectiveUsed = used;
+                if (needsReset && prof?.plan && prof.plan !== 'free') {
+                  effectiveUsed = 0;
+                  await fetch(SB_URL4 + '/rest/v1/profiles?id=eq.' + userId4Limit, {
+                    method: 'PATCH',
+                    headers: { 'apikey': SB_SVC, 'Authorization': 'Bearer ' + SB_SVC, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+                    body: JSON.stringify({ corrections_used: 0, corrections_reset_at: now2.toISOString() })
+                  });
+                }
                 const limit = PLAN_LIMITS[planKey] !== undefined ? PLAN_LIMITS[planKey] : 5;
-                if (limit !== Infinity && used >= limit) {
+                if (limit !== Infinity && effectiveUsed >= limit) {
                   return new Response(JSON.stringify({ error: 'limit_reached', plan: planKey, used, limit }), {
                     status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
                   });
