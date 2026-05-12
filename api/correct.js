@@ -232,27 +232,7 @@ export default async function handler(req) {
                             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                   });
           }
-                  // INCREMENT corrections_used
-        if (userId4Limit) {
-          try {
-            const SB_URL5 = process.env.SUPABASE_URL;
-            const SB_SVC2 = process.env.SUPABASE_SECRET_KEY;
-            const profRes2 = await fetch(SB_URL5 + '/rest/v1/profiles?id=eq.' + userId4Limit + '&select=corrections_used', {
-              headers: { 'apikey': SB_SVC2, 'Authorization': 'Bearer ' + SB_SVC2, 'Accept': 'application/vnd.pgrst.object+json' }
-            });
-            if (profRes2.ok) {
-              const prof2 = await profRes2.json();
-              const newUsed = (prof2?.corrections_used || 0) + 1;
-              await fetch(SB_URL5 + '/rest/v1/profiles?id=eq.' + userId4Limit, {
-                method: 'PATCH',
-                headers: { 'apikey': SB_SVC2, 'Authorization': 'Bearer ' + SB_SVC2, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-                body: JSON.stringify({ corrections_used: newUsed })
-              });
-              resultado._corrections_used = newUsed;
-            }
-          } catch (_e2) {}
-        }
-        return new Response(JSON.stringify(resultado), {
+                          return new Response(JSON.stringify(resultado), {
                   status: 200,
                   headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
