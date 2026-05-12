@@ -78,6 +78,33 @@ async function sendConfirmationEmail(email, plan) {
     console.error('Email error:', err.message);
   }
 }
+async function sendCancellationEmail(email) {
+  try {
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'WritingCorrect <noreply@writingcorrect.com>',
+        to: email,
+        subject: 'Suscripcion cancelada - WritingCorrect',
+        html: `
+          <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px;background:#f8fafc;border-radius:12px;">
+            <h1 style="color:#1e293b;font-size:24px;margin-bottom:8px;">Tu suscripcion ha sido cancelada</h1>
+            <p style="color:#475569;font-size:16px;">Tu acceso a WritingCorrect finalizara al termino del periodo de facturacion actual.</p>
+            <p style="color:#475569;font-size:16px;">Puedes volver a suscribirte en cualquier momento.</p>
+            <a href="https://writingcorrect.com/#precios" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#6366f1;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">Ver planes</a>
+            <p style="color:#94a3b8;font-size:13px;margin-top:24px;">Si tienes alguna duda, responde a este email.</p>
+          </div>
+        `,
+      }),
+    });
+  } catch (err) {
+    console.error('Cancellation email error:', err.message);
+  }
+}
 async function verifyStripeSignature(payload, sigHeader, secret) {
   const parts = sigHeader.split(',').reduce((acc, part) => {
     const [k, v] = part.split('=');
@@ -185,7 +212,8 @@ export default async function handler(req) {
             });
           }
         }
-        break;
+                if (customer.email) await sendCancellationEmail(customer.email);
+break;
       }
 
       default:
