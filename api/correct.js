@@ -21,7 +21,41 @@ export default async function handler(req) {
                             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                   });
           }
-          // TRANSCRIPCION
+                  // CHECK PLAN LIMIT
+        const authHeader = req.headers.get('Authorization') || '';
+        const token = authHeader.replace('Bearer ', '');
+        let userId4Limit = null;
+        if (token && texto !== '__transcribe__') {
+          const SB_URL4 = process.env.SUPABASE_URL;
+          const SB_SVC = process.env.SUPABASE_SECRET_KEY;
+          const PLAN_LIMITS = { free: 5, basic: 80, teacher: 250, center: Infinity };
+          try {
+            const uRes = await fetch(SB_URL4 + '/auth/v1/user', {
+              headers: { 'apikey': SB_SVC, 'Authorization': 'Bearer ' + token }
+            });
+            if (uRes.ok) {
+              const uData = await uRes.json();
+              userId4Limit = uData?.id || null;
+            }
+            if (userId4Limit) {
+              const pRes = await fetch(SB_URL4 + '/rest/v1/profiles?id=eq.' + userId4Limit + '&select=plan,corrections_used', {
+                headers: { 'apikey': SB_SVC, 'Authorization': 'Bearer ' + SB_SVC, 'Accept': 'application/vnd.pgrst.object+json' }
+              });
+              if (pRes.ok) {
+                const prof = await pRes.json();
+                const planKey = prof?.plan || 'free';
+                const used = prof?.corrections_used || 0;
+                const limit = PLAN_LIMITS[planKey] !== undefined ? PLAN_LIMITS[planKey] : 5;
+                if (limit !== Infinity && used >= limit) {
+                  return new Response(JSON.stringify({ error: 'limit_reached', plan: planKey, used, limit }), {
+                    status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                  });
+                }
+              }
+            }
+          } catch (_e) {}
+        }
+// TRANSCRIPCION
       if (texto === '__transcribe__' && images && images.length > 0) {
               const transcribeContent = [
                         ...images.map((img) => ({
@@ -198,7 +232,27 @@ export default async function handler(req) {
                             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                   });
           }
-          return new Response(JSON.stringify(resultado), {
+                  // INCREMENT corrections_used
+        if (userId4Limit) {
+          try {
+            const SB_URL5 = process.env.SUPABASE_URL;
+            const SB_SVC2 = process.env.SUPABASE_SECRET_KEY;
+            const profRes2 = await fetch(SB_URL5 + '/rest/v1/profiles?id=eq.' + userId4Limit + '&select=corrections_used', {
+              headers: { 'apikey': SB_SVC2, 'Authorization': 'Bearer ' + SB_SVC2, 'Accept': 'application/vnd.pgrst.object+json' }
+            });
+            if (profRes2.ok) {
+              const prof2 = await profRes2.json();
+              const newUsed = (prof2?.corrections_used || 0) + 1;
+              await fetch(SB_URL5 + '/rest/v1/profiles?id=eq.' + userId4Limit, {
+                method: 'PATCH',
+                headers: { 'apikey': SB_SVC2, 'Authorization': 'Bearer ' + SB_SVC2, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+                body: JSON.stringify({ corrections_used: newUsed })
+              });
+              resultado._corrections_used = newUsed;
+            }
+          } catch (_e2) {}
+        }
+        return new Response(JSON.stringify(resultado), {
                   status: 200,
                   headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           });
