@@ -64,7 +64,7 @@ async function sendConfirmationEmail(email, plan) {
         subject: '\u2705 Suscripci\u00f3n activada - WritingCorrect',
         html: `
           <div style="font-family:sans-serif;max-width:520px;margin:auto;padding:32px;background:#f8fafc;border-radius:12px;">
-            <h1 style="color:#1e293b;font-size:24px;margin-bottom:8px;">\u00a1Bienvenida a WritingCorrect!</h1>
+            <h1 style="color:#1e293b;font-size:24px;margin-bottom:8px;">\u00a1Bienvenido/a a WritingCorrect!</h1>
             <p style="color:#475569;font-size:16px;">Tu suscripci\u00f3n al plan <strong>${planName}</strong> est\u00e1 activa.</p>
             <p style="color:#475569;font-size:16px;">Ya puedes corregir writings con IA desde tu cuenta.</p>
             <a href="https://writingcorrect.com/app" style="display:inline-block;margin-top:16px;padding:12px 24px;background:#6366f1;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;">Ir a WritingCorrect \u2192</a>
@@ -188,6 +188,7 @@ export default async function handler(req) {
           await updateProfile(targetUserId, {
             plan,
             corrections_used: 0,
+            corrections_reset_at: new Date().toISOString(),
             updated_at: new Date().toISOString(),
           });
         }
@@ -208,6 +209,7 @@ export default async function handler(req) {
             await updateProfile(uid, {
               plan: 'free',
               corrections_used: 0,
+            corrections_reset_at: new Date().toISOString(),
               updated_at: new Date().toISOString(),
             });
           }
