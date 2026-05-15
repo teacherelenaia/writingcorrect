@@ -12,6 +12,7 @@
     { "source": "/api/extract-rubrica", "destination": "/api/extract-rubrica" },
     { "source": "/api/templates", "destination": "/api/templates" },
     { "source": "/api/templates-widget", "destination": "/api/templates-widget" },
+    { "source": "/api/sparkline-widget", "destination": "/api/sparkline-widget" },
     { "source": "/api/stats", "destination": "/api/stats" },
     { "source": "/api/demo", "destination": "/api/demo" },
     { "source": "/clases", "destination": "/api/clases" },
