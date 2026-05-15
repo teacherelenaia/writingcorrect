@@ -132,13 +132,30 @@ export default async function handler(req) {
     sectionTop.parentNode.insertBefore(btn, sectionTop.nextSibling);
   }
 
+  function addDashboardLink() {
+      if (document.getElementById('wc-dash-link')) return;
+          var nav = document.querySelector('nav');
+              if (!nav) return;
+                  var navRight = nav.querySelector('.nav-right');
+                      if (!navRight) return;
+                          var link = document.createElement('a');
+                              link.id = 'wc-dash-link';
+                                  link.href = '/dashboard';
+                                      link.style.cssText = 'padding:6px 14px;background:white;border:1px solid #D8E2EC;border-radius:7px;font-family:\'DM Sans\',sans-serif;font-size:13px;font-weight:500;color:#4A5C70;text-decoration:none;display:flex;align-items:center;gap:5px;transition:all 0.2s';
+                                          link.innerHTML = '&#128202; Dashboard';
+                                              link.onmouseover = function() { this.style.borderColor = '#4A5C70'; this.style.color = '#0E1E35'; };
+                                                  link.onmouseout = function() { this.style.borderColor = '#D8E2EC'; this.style.color = '#4A5C70'; };
+                                                      navRight.insertBefore(link, navRight.firstChild);
+                                                        }
   // Watch for DOM changes (React renders dynamically)
   var observer = new MutationObserver(function() {
     addButton();
+          addDashboardLink();
   });
   observer.observe(document.body, { childList: true, subtree: true });
   // Initial check
   addButton();
+      addDashboardLink();
 })();
 `;
   return new Response(js, {
