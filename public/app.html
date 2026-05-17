@@ -297,8 +297,8 @@ const COURSES       = ['1º ESO','2º ESO','3º ESO','4º ESO','1º Bach','2º B
 const WRITING_TYPES = ['Email / Carta formal','Email / Carta informal','Redacción / Essay','Opinion Essay','For and Against Essay','Descripción','Narrativa / Story','Informe / Report','Reseña / Review','Artículo / Article','Blog post','Diálogo','Resumen / Summary','Biografía','Instrucciones / How-to','Queja / Complaint letter','Solicitud / Application letter','Otro'];
 
 /* ── Helpers ──────────────────────────────────── */
-function fileToBase64(file) {
-  return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});
+function compressAndToBase64(file){
+  return new Promise((res,rej)=>{const img=new Image();const url=URL.createObjectURL(file);img.onload=()=>{URL.revokeObjectURL(url);const MAX=1600;let w=img.naturalWidth,h=img.naturalHeight;if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX;}else{w=Math.round(w*MAX/h);h=MAX;}}const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);res(c.toDataURL('image/jpeg',0.8).split(',')[1]);};img.onerror=rej;img.src=url;});
 }
 
 async function getProfile(userId) {
@@ -815,8 +815,8 @@ function Corrector({user, onUserChange, onLogout}) {
     const imgs=[];
     for(const f of files){
       if(!f.type.startsWith('image/')) continue;
-      const b64=await fileToBase64(f);
-      imgs.push({preview:URL.createObjectURL(f),base64:b64,mediaType:f.type});
+      const b64=await compressAndToBase64(f);
+      imgs.push({preview:URL.createObjectURL(f),base64:b64,mediaType:'image/jpeg'});
     }
     setImages(prev=>[...prev,...imgs]);
   }
