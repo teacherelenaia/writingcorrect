@@ -1,7 +1,7 @@
 export const config = { runtime: 'edge' };
 
-const SUPABASE_URL = 'https://onrnbbjajlmdesoyqcrf.supabase.co';
-const SUPABASE_SERVICE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ucm5iYmphamxtZGVzb3lxY3JmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NzEwNjUyOSwiZXhwIjoyMDkyNjgyNTI5fQ.dEhjogCK_du9FogA70VJkN6whKrotJihK6mzC-5EloE';
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SECRET_KEY;
 
 export default async function handler(req) {
   const url = new URL(req.url);
