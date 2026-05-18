@@ -29,7 +29,7 @@ async function getUserFromAuth(req) {
       try {
               const res = await fetch(`${process.env.SUPABASE_URL}/auth/v1/user`, {
                         headers: {
-                                    'apikey': process.env.SUPABASE_ANON_KEY,
+                                    'apikey': process.env.SUPABASE_PUBLISHABLE_KEY,
                                     'Authorization': `Bearer ${token}`,
                         },
               });
